@@ -289,162 +289,161 @@
   <footer>
     © 2026 ShopSathi AI — Smart Shopping Assistant
   
-<script>
+       <script>
 function findProducts() {
-  const input = document
-    .getElementById("searchInput")
-    .value
-    .trim()
-    .toLowerCase();
+    const input = document.getElementById("searchInput").value.trim().toLowerCase();
 
-  const results = document.getElementById("results");
+    if (input === "") {
+        alert("Please enter a product");
+        return;
+    }
 
-  if (input === "") {
-    alert("Please enter a product");
-    return;
-  }
+    let budget = null;
 
-  let budget = null;
-  const budgetMatch = input.match(/under\s*₹?\s*(\d+)/);
+    const budgetMatch = input.match(/under\s*₹?\s*(\d+)/);
 
-  if (budgetMatch) {
-    budget = Number(budgetMatch[1]);
-  }
+    if (budgetMatch) {
+        budget = Number(budgetMatch[1]);
+    }
 
-  let category = "";
+    let category = "";
 
-  if (input.includes("shoe")) {
-    category = "shoes";
-  } else if (
-    input.includes("headphone") ||
-    input.includes("earphone")
-  ) {
-    category = "headphones";
-  } else if (
-    input.includes("bag") ||
-    input.includes("backpack")
-  ) {
-    category = "bags";
-  } else if (input.includes("laptop")) {
-    category = "laptops";
-  }
+    if (input.includes("shoe")) {
+        category = "shoes";
+    } else if (
+        input.includes("headphone") ||
+        input.includes("earphone")
+    ) {
+        category = "headphones";
+    } else if (
+        input.includes("bag") ||
+        input.includes("backpack")
+    ) {
+        category = "bags";
+    } else if (input.includes("laptop")) {
+        category = "laptops";
+    }
 
-  const allProducts = {
-    shoes: [
-      {
-        name: "Running Shoes",
-        price: 1499,
-        emoji: "👟",
-        rating: "⭐⭐⭐⭐⭐"
-      },
-      {
-        name: "Sports Shoes",
-        price: 1799,
-        emoji: "👟",
-        rating: "⭐⭐⭐⭐"
-      },
-      {
-        name: "Casual Shoes",
-        price: 1299,
-        emoji: "👟",
-        rating: "⭐⭐⭐⭐⭐"
-      }
-    ],
+    const allProducts = {
+        shoes: [
+            {
+                name: "Running Shoes",
+                price: 1499,
+                emoji: "👟",
+                rating: "⭐⭐⭐⭐⭐"
+            },
+            {
+                name: "Sports Shoes",
+                price: 1799,
+                emoji: "👟",
+                rating: "⭐⭐⭐⭐"
+            },
+            {
+                name: "Casual Shoes",
+                price: 1299,
+                emoji: "👟",
+                rating: "⭐⭐⭐⭐⭐"
+            }
+        ],
 
-    headphones: [
-      {
-        name: "Wireless Headphones",
-        price: 1299,
-        emoji: "🎧",
-        rating: "⭐⭐⭐⭐"
-      },
-      {
-        name: "Bluetooth Headphones",
-        price: 999,
-        emoji: "🎧",
-        rating: "⭐⭐⭐⭐⭐"
-      }
-    ],
+        headphones: [
+            {
+                name: "Wireless Headphones",
+                price: 1299,
+                emoji: "🎧",
+                rating: "⭐⭐⭐⭐"
+            },
+            {
+                name: "Bluetooth Headphones",
+                price: 999,
+                emoji: "🎧",
+                rating: "⭐⭐⭐⭐⭐"
+            }
+        ],
 
-    bags: [
-      {
-        name: "College Backpack",
-        price: 899,
-        emoji: "🎒",
-        rating: "⭐⭐⭐⭐⭐"
-      },
-      {
-        name: "Laptop Backpack",
-        price: 1499,
-        emoji: "🎒",
-        rating: "⭐⭐⭐⭐"
-      }
-    ],
+        bags: [
+            {
+                name: "College Backpack",
+                price: 899,
+                emoji: "🎒",
+                rating: "⭐⭐⭐⭐⭐"
+            },
+            {
+                name: "Laptop Backpack",
+                price: 1499,
+                emoji: "🎒",
+                rating: "⭐⭐⭐⭐"
+            }
+        ],
 
-    laptops: [
-      {
-        name: "Budget Laptop",
-        price: 39999,
-        emoji: "💻",
-        rating: "⭐⭐⭐⭐"
-      },
-      {
-        name: "Student Laptop",
-        price: 45999,
-        emoji: "💻",
-        rating: "⭐⭐⭐⭐⭐"
-      }
-    ]
-  };
+        laptops: [
+            {
+                name: "Budget Laptop",
+                price: 39999,
+                emoji: "💻",
+                rating: "⭐⭐⭐⭐"
+            },
+            {
+                name: "Student Laptop",
+                price: 45999,
+                emoji: "💻",
+                rating: "⭐⭐⭐⭐⭐"
+            }
+        ]
+    };
 
-  let products = category
-    ? allProducts[category]
-    : [];
+    let products = category ? allProducts[category] : [];
 
-  if (budget !== null) {
-    products = products.filter(
-      product => product.price <= budget
-    );
-  }
+    if (budget !== null) {
+        products = products.filter(
+            product => product.price <= budget
+        );
+    }
 
-  if (products.length === 0) {
-    results.innerHTML = `
-      <h2>😔 Product nahi mila</h2>
-      <p>Dusra product ya bada budget try karo.</p>
-    `;
-  } else {
-    results.innerHTML = `
-      <h2>🛍️ Recommended Products</h2>
+    const results = document.getElementById("results");
 
-      <div class="products">
-        ${products.map(product => `
-          <div class="product">
-            <div class="emoji">${product.emoji}</div>
+    if (products.length === 0) {
+        results.innerHTML = `
+            <h2>😕 Product nahi mila</h2>
+            <p>Dusra product ya bada budget try karo.</p>
+        `;
+    } else {
+        results.innerHTML = `
+            <h2>🛍️ Recommended Products</h2>
 
-            <h3>${product.name}</h3>
+            <div class="products">
+                ${products.map(product => `
+                    <div class="product">
 
-            <div class="price">
-              ₹${product.price.toLocaleString("en-IN")}
+                        <div class="emoji">
+                            ${product.emoji}
+                        </div>
+
+                        <h3>${product.name}</h3>
+
+                        <div class="price">
+                            ₹${product.price.toLocaleString("en-IN")}
+                        </div>
+
+                        <div class="rating">
+                            ${product.rating}
+                        </div>
+
+                        <a href="#" class="view-btn">
+                            View Product
+                        </a>
+
+                    </div>
+                `).join("")}
             </div>
+        `;
+    }
 
-            <div class="rating">
-              ${product.rating}
-            </div>
-
-            <a href="#" class="view-btn">
-              View Product
-            </a>
-          </div>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  results.scrollIntoView({
-    behavior: "smooth"
-  });
+    results.scrollIntoView({
+        behavior: "smooth"
+    });
 }
-       </script>          
+     </script> 
 
   
 
