@@ -255,33 +255,7 @@
   </section>
 
   <section id="results">
-    <h2>Recommended Products</h2>
-
-    <div class="products">
-
-      <div class="product">
-        <div class="emoji">👟</div>
-        <h3>Running Shoes</h3>
-        <div class="price">₹1,499</div>
-        <div class="rating">⭐⭐⭐⭐⭐</div>
-        <a href="#" class="view-btn">View Product</a>
-      </div>
-
-      <div class="product">
-        <div class="emoji">🎧</div>
-        <h3>Wireless Headphones</h3>
-        <div class="price">₹1,299</div>
-        <div class="rating">⭐⭐⭐⭐</div>
-        <a href="#" class="view-btn">View Product</a>
-      </div>
-
-      <div class="product">
-        <div class="emoji">🎒</div>
-        <h3>College Backpack</h3>
-        <div class="price">₹899</div>
-        <div class="rating">⭐⭐⭐⭐⭐</div>
-        <a href="#" class="view-btn">View Product</a>
-      </div>
+  
 
     </div>
   </section>
@@ -350,74 +324,28 @@ function findProducts() {
             {
                 name: "Wireless Headphones",
                 price: 1299,
-                emoji: "🎧",
-                rating: "⭐⭐⭐⭐"
-            },
-            {
-                name: "Bluetooth Headphones",
-                price: 999,
-                emoji: "🎧",
-                rating: "⭐⭐⭐⭐⭐"
-            }
-        ],
+                
 
-        bags: [
-            {
-                name: "College Backpack",
-                price: 899,
-                emoji: "🎒",
-                rating: "⭐⭐⭐⭐⭐"
-            },
-            {
-                name: "Laptop Backpack",
-                price: 1499,
-                emoji: "🎒",
-                rating: "⭐⭐⭐⭐"
-            }
-        ],
+if (products.length === 0) {
+    results.innerHTML = `
+        <h2>😔 Product nahi mila</h2>
+        <p>Dusra product ya bada budget try karo.</p>
+    `;
+} else {
+    results.innerHTML = `
+        <h2>🛍️ Amazon Products</h2>
 
-        laptops: [
-            {
-                name: "Budget Laptop",
-                price: 39999,
-                emoji: "💻",
-                rating: "⭐⭐⭐⭐"
-            },
-            {
-                name: "Student Laptop",
-                price: 45999,
-                emoji: "💻",
-                rating: "⭐⭐⭐⭐⭐"
-            }
-        ]
-    };
+        <div class="products">
+            ${products.map(product => {
 
-    let products = category ? allProducts[category] : [];
+                const amazonUrl =
+                    "https://www.amazon.in/s?k=" +
+                    encodeURIComponent(product.name) +
+                    "&tag=shopsathi01-21";
 
-    if (budget !== null) {
-        products = products.filter(
-            product => product.price <= budget
-        );
-    }
-
-    const results = document.getElementById("results");
-
-    if (products.length === 0) {
-        results.innerHTML = `
-            <h2>😕 Product nahi mila</h2>
-            <p>Dusra product ya bada budget try karo.</p>
-        `;
-    } else {
-        results.innerHTML = `
-            <h2>🛍️ Recommended Products</h2>
-
-            <div class="products">
-                ${products.map(product => `
+                return `
                     <div class="product">
-
-                        <div class="emoji">
-                            ${product.emoji}
-                        </div>
+                        <div class="emoji">${product.emoji}</div>
 
                         <h3>${product.name}</h3>
 
@@ -429,36 +357,25 @@ function findProducts() {
                             ${product.rating}
                         </div>
 
-                        <a href="#" class="view-btn">
-                            View Product
+                        <a
+                            href="${amazonUrl}"
+                            target="_blank"
+                            rel="noopener"
+                            class="view-btn"
+                        >
+                            🛒 View on Amazon
                         </a>
-
                     </div>
-                `).join("")}
-            </div>
-        `;
-    }
+                `;
 
-    results.scrollIntoView({
-        behavior: "smooth"
-    });
+            }).join("")}
+        </div>
+    `;
 }
-     </script> 
 
-  
-
-</body>
-</html>  
-  
-    
-        
-      
- 
-  
-  
-  
-
-
+results.scrollIntoView({
+    behavior: "smooth"
+}
 
  
   
