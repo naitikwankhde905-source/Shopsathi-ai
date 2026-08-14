@@ -1693,11 +1693,22 @@ AMAZON_ACCESS_KEY
 AMAZON_SECRET_KEY
 AMAZON_PARTNER_TAG
       
-
+link: item.DetailPageURL || ""
       
-      
+<a
+  class="buy"
+  href="${product.link}"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Buy on Amazon
+</a>      
 
-
+<div
+  class="card"
+  onclick="window.open('${product.link}', '_blank')"
+  style="cursor:pointer"
+>
      
 
 
