@@ -1,275 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>ShopSathi AI</title>
+<title>ShopSathi AI</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    body {
-      background: #f5f7fb;
-      color: #172033;
-    }
+body{
+  background:#f5f7fb;
+  color:#172033;
+}
 
-    header {
-      background: #fff;
-      padding: 18px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-    }
+header{
+  background:#fff;
+  padding:18px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
 
-    .logo span {
-      color: #5b5bf7;
-    }
+.logo span{
+  color:#5b5bf7;
+}
 
-    .hero {
-      text-align: center;
-      padding: 65px 20px 40px;
-    }
+.hero{
+  text-align:center;
+  padding:65px 20px 40px;
+}
 
-    .badge {
-      display: inline-block;
-      background: #ecebff;
-      color: #5048df;
-      padding: 9px 16px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+.badge{
+  display:inline-block;
+  background:#ecebff;
+  color:#5048df;
+  padding:9px 16px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
 
-    .hero h1 {
-      font-size: 44px;
-      margin-bottom: 15px;
-    }
+.hero h1{
+  font-size:44px;
+  margin-bottom:15px;
+}
 
-    .hero h1 span {
-      color: #5b5bf7;
-    }
+.hero h1 span{
+  color:#5b5bf7;
+}
 
-    .hero p {
-      font-size: 18px;
-      color: #667085;
-      margin-bottom: 28px;
-    }
+.hero p{
+  font-size:18px;
+  color:#667085;
+  margin-bottom:28px;
+}
 
-    .chat-box {
-      max-width: 720px;
-      margin: auto;
-      background: white;
-      padding: 15px;
-      border-radius: 18px;
-      box-shadow: 0 5px 25px rgba(0,0,0,.08);
-    }
+.chat-box{
+  max-width:720px;
+  margin:auto;
+  background:#fff;
+  padding:15px;
+  border-radius:18px;
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
 
-    textarea {
-      width: 100%;
-      min-height: 110px;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      resize: vertical;
-      font-size: 16px;
-      outline: none;
-    }
+textarea{
+  width:100%;
+  min-height:110px;
+  padding:15px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  resize:vertical;
+  font-size:16px;
+  outline:none;
+}
 
-    textarea:focus {
-      border-color: #5b5bf7;
-    }
+textarea:focus{
+  border-color:#5b5bf7;
+}
 
-    .ask-btn {
-      width: 100%;
-      margin-top: 10px;
-      padding: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: #5b5bf7;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.ask-btn{
+  width:100%;
+  margin-top:10px;
+  padding:15px;
+  border:0;
+  border-radius:10px;
+  background:#5b5bf7;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .ask-btn:hover {
-      background: #4545d8;
-    }
+.ask-btn:disabled{
+  opacity:.7;
+  cursor:wait;
+}
 
-    .ask-btn:disabled {
-      opacity: .7;
-      cursor: wait;
-    }
+.examples{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
 
-    .examples {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
+.examples button{
+  padding:10px 14px;
+  background:white;
+  border:1px solid #ddd;
+  border-radius:20px;
+  cursor:pointer;
+}
 
-    .examples button {
-      padding: 10px 14px;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      cursor: pointer;
-    }
+#loading{
+  max-width:800px;
+  margin:25px auto;
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  color:#5b5bf7;
+  font-weight:bold;
+}
 
-    #loading,
-    #result {
-      max-width: 800px;
-      margin: 25px auto;
-    }
+.hidden{
+  display:none;
+}
 
-    #loading {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      text-align: center;
-      color: #5b5bf7;
-      font-weight: bold;
-    }
+.ai-result{
+  max-width:900px;
+  margin:25px auto;
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 4px 20px rgba(0,0,0,.07);
+}
 
-    .result-card {
-      background: white;
-      padding: 28px;
-      border-radius: 18px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.07);
-    }
+.ai-result h2{
+  margin-bottom:12px;
+}
 
-    .result-title {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 15px;
-    }
+.ai-text{
+  color:#475467;
+  line-height:1.7;
+  white-space:pre-wrap;
+  margin-bottom:25px;
+}
 
-    .bot {
-      font-size: 35px;
-    }
 
-    .answer {
-      color: #475467;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
+/* PRODUCT GRID */
 
-    .amazon-btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 13px 20px;
-      background: #172033;
-      color: white;
-      text-decoration: none;
-      border-radius: 9px;
-      font-weight: bold;
-    }
+.products-section{
+  max-width:1100px;
+  margin:30px auto 60px;
+  padding:0 20px;
+}
 
-    .amazon-btn:hover {
-      background: #5b5bf7;
-    }
+.products-title{
+  margin-bottom:20px;
+  font-size:26px;
+}
 
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 25px;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-    }
+.product-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
 
-    .feature {
-      background: white;
-      padding: 22px;
-      border-radius: 15px;
-      width: 230px;
-      text-align: center;
-      box-shadow: 0 3px 15px rgba(0,0,0,.05);
-    }
+.product-card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+  transition:.2s;
+  display:flex;
+  flex-direction:column;
+}
 
-    .feature-icon {
-      font-size: 35px;
-    }
+.product-card:hover{
+  transform:translateY(-3px);
+}
 
-    .feature h3 {
-      margin: 10px 0;
-    }
+.product-image-wrap{
+  height:220px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
 
-    .feature p {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+.product-image{
+  max-width:100%;
+  max-height:190px;
+  object-fit:contain;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #172033;
-      color: white;
-    }
+.product-info{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
 
-    .disclosure {
-      font-size: 12px;
-      opacity: .7;
-      margin-top: 8px;
-    }
+.product-title{
+  font-size:15px;
+  line-height:1.45;
+  margin-bottom:12px;
+}
 
-    .hidden {
-      display: none;
-    }
+.price{
+  font-size:21px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
 
-    @media (max-width: 600px) {
-      header {
-        padding: 15px;
-      }
+.rating{
+  color:#d97706;
+  margin-bottom:15px;
+  font-size:14px;
+}
 
-      header > div:last-child {
-        display: none;
-      }
+.amazon-btn{
+  display:block;
+  margin-top:auto;
+  padding:12px;
+  text-align:center;
+  background:#172033;
+  color:white;
+  text-decoration:none;
+  border-radius:9px;
+  font-weight:bold;
+}
 
-      .hero {
-        padding: 50px 15px 30px;
-      }
+.amazon-btn:hover{
+  background:#5b5bf7;
+}
 
-      .hero h1 {
-        font-size: 34px;
-      }
+.no-products{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  color:#667085;
+  text-align:center;
+}
 
-      .hero p {
-        font-size: 16px;
-      }
+.features{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:25px;
+  flex-wrap:wrap;
+  margin-bottom:50px;
+}
 
-      #loading,
-      #result {
-        margin-left: 15px;
-        margin-right: 15px;
-      }
+.feature{
+  background:white;
+  padding:22px;
+  border-radius:15px;
+  width:230px;
+  text-align:center;
+  box-shadow:0 3px 15px rgba(0,0,0,.05);
+}
 
-      .feature {
-        width: 100%;
-      }
-    }
-  </style>
+.feature-icon{
+  font-size:35px;
+}
+
+.feature h3{
+  margin:10px 0;
+}
+
+.feature p{
+  color:#667085;
+  font-size:14px;
+  line-height:1.5;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  background:#172033;
+  color:white;
+}
+
+.disclosure{
+  font-size:12px;
+  opacity:.7;
+  margin-top:8px;
+}
+
+@media(max-width:600px){
+
+  header{
+    padding:15px;
+  }
+
+  header>div:last-child{
+    display:none;
+  }
+
+  .hero{
+    padding:50px 15px 30px;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  #loading,
+  .ai-result{
+    margin-left:15px;
+    margin-right:15px;
+  }
+
+  .product-grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .product-image-wrap{
+    height:170px;
+  }
+
+  .product-image{
+    max-height:145px;
+  }
+
+  .product-info{
+    padding:12px;
+  }
+
+  .product-title{
+    font-size:13px;
+  }
+
+  .price{
+    font-size:17px;
+  }
+
+  .feature{
+    width:100%;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
+
   <div class="logo">
     Shop<span>Sathi</span> AI 🛍️
   </div>
@@ -277,6 +377,7 @@
   <div>
     Smart Shopping Assistant
   </div>
+
 </header>
 
 
@@ -292,9 +393,8 @@
   </h1>
 
   <p>
-    Apni requirement, budget aur preferences batao.
+    Apni requirement aur budget batao.
   </p>
-
 
   <div class="chat-box">
 
@@ -334,35 +434,38 @@
 
 
 <div id="loading" class="hidden">
-  🤖 ShopSathi AI soch raha hai...
+  🤖 ShopSathi AI products search kar raha hai...
 </div>
 
 
-<section id="result" class="hidden">
+<section
+  id="aiResult"
+  class="ai-result hidden"
+>
 
-  <div class="result-card">
+  <h2>🤖 ShopSathi AI</h2>
 
-    <div class="result-title">
-      <div class="bot">🤖</div>
+  <div
+    id="answer"
+    class="ai-text"
+  ></div>
 
-      <h2>
-        ShopSathi AI
-      </h2>
-    </div>
+</section>
 
-    <div id="answer" class="answer"></div>
 
-    <a
-      id="amazonButton"
-      class="amazon-btn"
-      href="#"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      🛒 Amazon par search karein
-    </a>
+<section
+  id="productsSection"
+  class="products-section hidden"
+>
 
-  </div>
+  <h2 class="products-title">
+    🛍️ Recommended Products
+  </h2>
+
+  <div
+    id="productGrid"
+    class="product-grid"
+  ></div>
 
 </section>
 
@@ -370,35 +473,47 @@
 <section class="features">
 
   <div class="feature">
-    <div class="feature-icon">🤖</div>
+
+    <div class="feature-icon">
+      🤖
+    </div>
 
     <h3>AI Suggestions</h3>
 
     <p>
-      Apni requirement batao aur AI se shopping guidance lo.
+      Apni requirement batao aur AI se guidance lo.
     </p>
+
   </div>
 
 
   <div class="feature">
-    <div class="feature-icon">💰</div>
 
-    <h3>Budget Friendly</h3>
+    <div class="feature-icon">
+      💰
+    </div>
+
+    <h3>Budget Search</h3>
 
     <p>
-      Apna budget batao taaki search focused ho.
+      Apna budget include karo.
     </p>
+
   </div>
 
 
   <div class="feature">
-    <div class="feature-icon">🛒</div>
 
-    <h3>Amazon Search</h3>
+    <div class="feature-icon">
+      🛒
+    </div>
+
+    <h3>Amazon Products</h3>
 
     <p>
-      Search ko Amazon ke results mein continue karo.
+      Real catalog products cards mein dekho.
     </p>
+
   </div>
 
 </section>
@@ -420,31 +535,20 @@
 
 <script>
 
-const AMAZON_TAG = "shopsathi01-21";
-
-
-function useExample(text) {
-  document.getElementById("userInput").value = text;
-}
-
-
-function createAmazonUrl(query) {
-
-  return "https://www.amazon.in/s?k=" +
-    encodeURIComponent(query) +
-    "&tag=" +
-    encodeURIComponent(AMAZON_TAG);
-
-}
-
-
-async function askAI() {
+async function askAI(){
 
   const input =
-    document.getElementById("userInput").value.trim();
+    document
+      .getElementById("userInput")
+      .value
+      .trim();
 
-  if (!input) {
-    alert("Pehle apni shopping requirement likho.");
+  if(!input){
+
+    alert(
+      "Pehle apni shopping requirement likho."
+    );
+
     return;
   }
 
@@ -455,73 +559,92 @@ async function askAI() {
   const loading =
     document.getElementById("loading");
 
-  const result =
-    document.getElementById("result");
+  const aiResult =
+    document.getElementById("aiResult");
 
   const answer =
     document.getElementById("answer");
 
-  const amazonButton =
-    document.getElementById("amazonButton");
+  const productsSection =
+    document.getElementById("productsSection");
+
+  const productGrid =
+    document.getElementById("productGrid");
 
 
   button.disabled = true;
-  button.textContent = "🤖 AI soch raha hai...";
+
+  button.textContent =
+    "🤖 Searching...";
 
   loading.classList.remove("hidden");
-  result.classList.add("hidden");
+
+  aiResult.classList.add("hidden");
+
+  productsSection.classList.add("hidden");
+
+  productGrid.innerHTML = "";
 
 
-  try {
+  try{
 
-    const response = await fetch("/api/chat", {
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+          method:"POST",
 
-      method: "POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
 
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        message: input
-      })
-
-    });
-
-
-    const data = await response.json();
-
-
-    if (!response.ok) {
-      throw new Error(
-        data.error || "AI request failed"
+          body:JSON.stringify({
+            message:input
+          })
+        }
       );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Request failed"
+      );
+
     }
 
 
-    answer.textContent = data.reply;
+    answer.textContent =
+      data.reply ||
+      "AI recommendation available.";
 
 
-    amazonButton.href =
-      createAmazonUrl(input);
+    aiResult.classList.remove(
+      "hidden"
+    );
 
 
-    result.classList.remove("hidden");
+    renderProducts(
+      data.products || []
+    );
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(error);
 
     answer.textContent =
-      "AI se connection nahi ho paya. Vercel Environment Variables aur AI backend configuration check karo.";
+      "Products load nahi ho paaye. API configuration check karo.";
 
-
-    amazonButton.href =
-      createAmazonUrl(input);
-
-
-    result.classList.remove("hidden");
+    aiResult.classList.remove(
+      "hidden"
+    );
 
   }
 
@@ -529,179 +652,261 @@ async function askAI() {
   loading.classList.add("hidden");
 
   button.disabled = false;
-  button.textContent = "✨ Ask ShopSathi AI";
+
+  button.textContent =
+    "✨ Ask ShopSathi AI";
 
 
-  result.scrollIntoView({
-    behavior: "smooth"
+  window.scrollTo({
+    top:
+      aiResult.offsetTop - 20,
+    behavior:"smooth"
   });
+
+}
+
+
+function renderProducts(products){
+
+  const section =
+    document.getElementById(
+      "productsSection"
+    );
+
+  const grid =
+    document.getElementById(
+      "productGrid"
+    );
+
+
+  grid.innerHTML = "";
+
+
+  if(!products.length){
+
+    grid.innerHTML = `
+      <div class="no-products">
+        Is search ke liye products nahi mile.
+      </div>
+    `;
+
+    section.classList.remove(
+      "hidden"
+    );
+
+    return;
+  }
+
+
+  products.forEach(product => {
+
+    const card =
+      document.createElement(
+        "article"
+      );
+
+    card.className =
+      "product-card";
+
+
+    const imageWrap =
+      document.createElement(
+        "div"
+      );
+
+    imageWrap.className =
+      "product-image-wrap";
+
+
+    const image =
+      document.createElement(
+        "img"
+      );
+
+    image.className =
+      "product-image";
+
+    image.src =
+      product.image || "";
+
+    image.alt =
+      product.title || "Product";
+
+    image.loading =
+      "lazy";
+
+
+    image.onerror =
+      function(){
+
+        imageWrap.innerHTML =
+          "<div style='font-size:50px'>🛍️</div>";
+
+      };
+
+
+    imageWrap.appendChild(
+      image
+    );
+
+
+    const info =
+      document.createElement(
+        "div"
+      );
+
+    info.className =
+      "product-info";
+
+
+    const title =
+      document.createElement(
+        "h3"
+      );
+
+    title.className =
+      "product-title";
+
+    title.textContent =
+      product.title ||
+      "Amazon Product";
+
+
+    const price =
+      document.createElement(
+        "div"
+      );
+
+    price.className =
+      "price";
+
+    price.textContent =
+      product.price ||
+      "Price unavailable";
+
+
+    const rating =
+      document.createElement(
+        "div"
+      );
+
+    rating.className =
+      "rating";
+
+
+    if(
+      product.rating !== null &&
+      product.rating !== undefined
+    ){
+
+      rating.textContent =
+        "⭐ " +
+        product.rating;
+
+      if(product.reviewCount){
+
+        rating.textContent +=
+          " (" +
+          product.reviewCount +
+          " reviews)";
+
+      }
+
+    }else{
+
+      rating.textContent =
+        "Rating unavailable";
+
+    }
+
+
+    const button =
+      document.createElement(
+        "a"
+      );
+
+    button.className =
+      "amazon-btn";
+
+    button.textContent =
+      "🛒 View on Amazon";
+
+    button.href =
+      product.url || "#";
+
+    button.target =
+      "_blank";
+
+    button.rel =
+      "noopener noreferrer";
+
+
+    info.appendChild(
+      title
+    );
+
+    info.appendChild(
+      price
+    );
+
+    info.appendChild(
+      rating
+    );
+
+    info.appendChild(
+      button
+    );
+
+
+    card.appendChild(
+      imageWrap
+    );
+
+    card.appendChild(
+      info
+    );
+
+
+    grid.appendChild(
+      card
+    );
+
+  });
+
+
+  section.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+function useExample(text){
+
+  document.getElementById(
+    "userInput"
+  ).value = text;
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>
       
-export default async function handler(req, res) {
-
-  if (req.method !== "POST") {
-
-    return res.status(405).json({
-      error: "Method not allowed"
-    });
-
-  }
 
 
-  try {
 
-    const { message } = req.body || {};
+    
+      
 
-
-    if (
-      typeof message !== "string" ||
-      !message.trim()
-    ) {
-
-      return res.status(400).json({
-        error: "Message is required"
-      });
-
-    }
+    
 
 
-    /*
-      IMPORTANT:
-      API key ko code mein mat likhna.
+    
 
-      Vercel Environment Variables:
-
-      AI_API_KEY = your secret API key
-      AI_API_URL = your provider's chat endpoint
-    */
-
-    const apiKey =
-      process.env.AI_API_KEY;
-
-    const apiUrl =
-      process.env.AI_API_URL;
-
-
-    if (!apiKey || !apiUrl) {
-
-      return res.status(500).json({
-        error:
-          "AI_API_KEY or AI_API_URL is not configured in Vercel."
-      });
-
-    }
-
-
-    const response =
-      await fetch(apiUrl, {
-
-        method: "POST",
-
-        headers: {
-
-          "Content-Type":
-            "application/json",
-
-          "Authorization":
-            `Bearer ${apiKey}`
-
-        },
-
-        body: JSON.stringify({
-
-          messages: [
-
-            {
-              role: "system",
-
-              content:
-                "You are ShopSathi AI, a helpful shopping assistant for Indian users. Understand the user's product needs, budget and preferences. Give concise practical shopping advice. Never invent product prices, ratings, reviews, availability, discounts or product specifications. If the user asks for products, explain what features they should look for and suggest a useful Amazon search query. Answer in Hindi, Hinglish, or English according to the user's language."
-            },
-
-            {
-              role: "user",
-
-              content: message.trim()
-
-            }
-
-          ]
-
-        })
-
-      });
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      console.error(
-        "AI provider error:",
-        data
-      );
-
-      return res.status(502).json({
-        error: "AI provider request failed."
-      });
-
-    }
-
-
-    /*
-      Supports common OpenAI-compatible
-      response formats.
-    */
-
-    const reply =
-      data?.choices?.[0]?.message?.content ||
-      data?.output_text ||
-      data?.reply ||
-      data?.output ||
-      data?.message;
-
-
-    if (
-      typeof reply !== "string" ||
-      !reply.trim()
-    ) {
-
-      return res.status(502).json({
-        error:
-          "AI provider returned an unsupported response format."
-      });
-
-    }
-
-
-    return res.status(200).json({
-      reply: reply.trim()
-    });
-
-
-  } catch (error) {
-
-    console.error(
-      "ShopSathi API error:",
-      error
-    );
-
-    return res.status(500).json({
-      error:
-        "Something went wrong while contacting the AI."
-    });
-
-  }
-
-}  
+            
+              
  
  
 
