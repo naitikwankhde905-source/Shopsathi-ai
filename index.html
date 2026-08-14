@@ -1,23 +1,9 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-site-verification" content="GwR9yV6X83HLhHS4KIi-a9VJSfjzogK9U8haiWyGDUY">
 
-  <title>ShopSathi AI</title>   
-  <style> 
-
-
-  
-
-
-
-  
-  
-    
-    
   <title>ShopSathi AI</title>
 
   <style>
@@ -29,13 +15,12 @@
     }
 
     body {
-
       background: #f5f7fb;
       color: #172033;
     }
 
     header {
-      background: #ffffff;
+      background: white;
       padding: 18px 7%;
       display: flex;
       justify-content: space-between;
@@ -172,7 +157,6 @@
     }
 
     .rating {
-      color: #f59e0b;
       margin-bottom: 15px;
     }
 
@@ -184,6 +168,10 @@
       padding: 11px;
       border-radius: 8px;
       text-decoration: none;
+    }
+
+    .view-btn:hover {
+      background: #5b5bf7;
     }
 
     footer {
@@ -204,181 +192,416 @@
         width: 100%;
         margin-bottom: 8px;
       }
+
+      header {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 
-<body><footer>
-  © 2026 ShopSathi AI — Created by Naitik Wankhde
-</footer>
+<body>
 
+  <!-- HEADER -->
   <header>
-    <div class="logo">Shop<span>Sathi</span> AI 🛍️</div>
-    <div>Smart Shopping</div>
+    <div class="logo">
+      Shop<span>Sathi</span> AI 🛍️
+    </div>
+
+    <div>
+      Smart Shopping
+    </div>
   </header>
 
+
+  <!-- HERO SECTION -->
   <section class="hero">
-    <h1>Find the <span>Best Product</span></h1>
-    <p>Tell ShopSathi what you need and we'll help you choose.</p>
+
+    <h1>
+      Find the <span>Best Product</span>
+    </h1>
+
+    <p>
+      Tell ShopSathi what you need and we'll help you choose.
+    </p>
 
     <div class="search-box">
+
       <input
         id="searchInput"
         type="text"
         placeholder="Example: shoes under ₹2000"
       >
 
-      <button onclick="findProducts()">✨ Find Products</button>
+      <button onclick="findProducts()">
+        ✨ Find Products
+      </button>
+
     </div>
+
   </section>
 
+
+  <!-- FEATURES -->
   <section class="features">
 
     <div class="feature">
       💰
       <h3>Budget Friendly</h3>
-      <p>Find products according to your budget.</p>
+      <p>
+        Find products according to your budget.
+      </p>
     </div>
 
     <div class="feature">
       ⭐
       <h3>Compare</h3>
-      <p>Compare different products easily.</p>
+      <p>
+        Compare different products easily.
+      </p>
     </div>
 
     <div class="feature">
       🤖
       <h3>AI Suggestions</h3>
-      <p>Get smart product recommendations.</p>
+      <p>
+        Get smart product recommendations.
+      </p>
     </div>
 
   </section>
 
+
+  <!-- RESULTS -->
   <section id="results">
-  
 
-    </div>
   </section>
 
+
+  <!-- FOOTER -->
   <footer>
     © 2026 ShopSathi AI — Smart Shopping Assistant
-  
-       <script>
-function findProducts() {
-    const input = document.getElementById("searchInput").value.trim().toLowerCase();
+  </footer>
 
-    if (input === "") {
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    function findProducts() {
+
+      const input = document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+      /* EMPTY SEARCH */
+
+      if (input === "") {
+
         alert("Please enter a product");
+
         return;
-    }
+      }
 
-    let budget = null;
 
-    const budgetMatch = input.match(/under\s*₹?\s*(\d+)/);
+      /* BUDGET */
 
-    if (budgetMatch) {
+      let budget = null;
+
+      const budgetMatch = input.match(
+        /under\s*₹?\s*(\d+)/
+      );
+
+      if (budgetMatch) {
+
         budget = Number(budgetMatch[1]);
-    }
 
-    let category = "";
+      }
 
-    if (input.includes("shoe")) {
+
+      /* CATEGORY */
+
+      let category = "";
+
+
+      if (
+        input.includes("shoe") ||
+        input.includes("shoes")
+      ) {
+
         category = "shoes";
-    } else if (
-        input.includes("headphone") ||
-        input.includes("earphone")
-    ) {
-        category = "headphones";
-    } else if (
-        input.includes("bag") ||
-        input.includes("backpack")
-    ) {
-        category = "bags";
-    } else if (input.includes("laptop")) {
-        category = "laptops";
-    }
 
-    const allProducts = {
+      }
+
+      else if (
+        input.includes("headphone") ||
+        input.includes("headphones") ||
+        input.includes("earphone") ||
+        input.includes("earphones")
+      ) {
+
+        category = "headphones";
+
+      }
+
+      else if (
+        input.includes("bag") ||
+        input.includes("bags") ||
+        input.includes("backpack")
+      ) {
+
+        category = "bags";
+
+      }
+
+      else if (
+        input.includes("laptop") ||
+        input.includes("laptops")
+      ) {
+
+        category = "laptops";
+
+      }
+
+
+      /* PRODUCTS DATABASE */
+
+      const allProducts = {
+
         shoes: [
-            {
-                name: "Running Shoes",
-                price: 1499,
-                emoji: "👟",
-                rating: "⭐⭐⭐⭐⭐"
-            },
-            {
-                name: "Sports Shoes",
-                price: 1799,
-                emoji: "👟",
-                rating: "⭐⭐⭐⭐"
-            },
-            {
-                name: "Casual Shoes",
-                price: 1299,
-                emoji: "👟",
-                rating: "⭐⭐⭐⭐⭐"
-            }
+
+          {
+            name: "Running Shoes",
+            price: 1499,
+            emoji: "👟",
+            rating: "⭐⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Sports Shoes",
+            price: 1799,
+            emoji: "👟",
+            rating: "⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Casual Shoes",
+            price: 1299,
+            emoji: "👟",
+            rating: "⭐⭐⭐⭐⭐"
+          }
+
         ],
 
+
         headphones: [
-            {
-                name: "Wireless Headphones",
-                price: 1299,
-                
 
-if (products.length === 0) {
-    results.innerHTML = `
-        <h2>😔 Product nahi mila</h2>
-        <p>Dusra product ya bada budget try karo.</p>
-    `;
-} else {
-    results.innerHTML = `
-        <h2>🛍️ Amazon Products</h2>
+          {
+            name: "Wireless Headphones",
+            price: 1299,
+            emoji: "🎧",
+            rating: "⭐⭐⭐⭐"
+          },
 
-        <div class="products">
+          {
+            name: "Bluetooth Headphones",
+            price: 1999,
+            emoji: "🎧",
+            rating: "⭐⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Wireless Earphones",
+            price: 999,
+            emoji: "🎧",
+            rating: "⭐⭐⭐⭐"
+          }
+
+        ],
+
+
+        bags: [
+
+          {
+            name: "College Backpack",
+            price: 899,
+            emoji: "🎒",
+            rating: "⭐⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Laptop Backpack",
+            price: 1499,
+            emoji: "🎒",
+            rating: "⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Travel Backpack",
+            price: 1999,
+            emoji: "🎒",
+            rating: "⭐⭐⭐⭐⭐"
+          }
+
+        ],
+
+
+        laptops: [
+
+          {
+            name: "Budget Laptop",
+            price: 39999,
+            emoji: "💻",
+            rating: "⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Student Laptop",
+            price: 45999,
+            emoji: "💻",
+            rating: "⭐⭐⭐⭐⭐"
+          },
+
+          {
+            name: "Performance Laptop",
+            price: 59999,
+            emoji: "💻",
+            rating: "⭐⭐⭐⭐⭐"
+          }
+
+        ]
+
+      };
+
+
+      /* GET PRODUCTS */
+
+      let products = category
+        ? allProducts[category]
+        : [];
+
+
+      /* BUDGET FILTER */
+
+      if (budget !== null) {
+
+        products = products.filter(
+          product => product.price <= budget
+        );
+
+      }
+
+
+      /* RESULTS */
+
+      const results =
+        document.getElementById("results");
+
+
+      /* NO PRODUCT */
+
+      if (products.length === 0) {
+
+        results.innerHTML = `
+
+          <h2>😔 Product nahi mila</h2>
+
+          <p style="
+            text-align:center;
+            color:#667085;
+          ">
+            Product name ya bada budget try karo.
+          </p>
+
+        `;
+
+      }
+
+
+      /* SHOW PRODUCTS */
+
+      else {
+
+        results.innerHTML = `
+
+          <h2>
+            🛍️ Recommended Products
+          </h2>
+
+          <div class="products">
+
             ${products.map(product => {
 
-                const amazonUrl =
-                    "https://www.amazon.in/s?k=" +
-                    encodeURIComponent(product.name) +
-                    "&tag=shopsathi01-21";
+              const amazonUrl =
+                "https://www.amazon.in/s?k=" +
+                encodeURIComponent(product.name);
 
-                return `
-                    <div class="product">
-                        <div class="emoji">${product.emoji}</div>
+              return `
 
-                        <h3>${product.name}</h3>
+                <div class="product">
 
-                        <div class="price">
-                            ₹${product.price.toLocaleString("en-IN")}
-                        </div>
+                  <div class="emoji">
+                    ${product.emoji}
+                  </div>
 
-                        <div class="rating">
-                            ${product.rating}
-                        </div>
+                  <h3>
+                    ${product.name}
+                  </h3>
 
-                        <a
-                            href="${amazonUrl}"
-                            target="_blank"
-                            rel="noopener"
-                            class="view-btn"
-                        >
-                            🛒 View on Amazon
-                        </a>
-                    </div>
-                `;
+                  <div class="price">
+                    ₹${product.price.toLocaleString("en-IN")}
+                  </div>
+
+                  <div class="rating">
+                    ${product.rating}
+                  </div>
+
+                  <a
+                    href="${amazonUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="view-btn"
+                  >
+                    🛒 View on Amazon
+                  </a>
+
+                </div>
+
+              `;
 
             }).join("")}
-        </div>
-    `;
-}
 
-results.scrollIntoView({
-    behavior: "smooth"
-}
+          </div>
 
+        `;
+
+      }
+
+
+      /* SCROLL TO RESULTS */
+
+      results.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>
  
-  
+      
+      
+      
+
+
    
       
         
