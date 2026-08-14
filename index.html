@@ -811,14 +811,887 @@ loadAllCategories();
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>      
       
+import AmazonPaapi from "amazon-paapi";
+
+export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json({
+      error: "Method not allowed"
+    });
+  }
+
+  const keyword = req.query.q || "mobile phone";
+
+  try {
+    const amazon = new AmazonPaapi({
+      accessKey: process.env.AMAZON_ACCESS_KEY,
+      secretKey: process.env.AMAZON_SECRET_KEY,
+      partnerTag: process.env.AMAZON_PARTNER_TAG,
+      country: "IN"
+    });
+
+    const data = await amazon.SearchItems({
+      Keywords: keyword,
+      ItemCount: 10,
+
+      Resources: [
+        "Images.Primary.Large",
+        "ItemInfo.Title",
+        "Offers.Listings.Price",
+        "Offers.Listings.SavingBasis",
+        "CustomerReviews.Count",
+        "CustomerReviews.StarRating"
+      ]
+    });
+
+    const items = data?.SearchResult?.Items || [];
+
+    const products = items.map((item) => ({
+      asin: item.ASIN,
+
+      title:
+        item.ItemInfo?.Title?.DisplayValue ||
+        "Amazon Product",
+
+      image:
+        item.Images?.Primary?.Large?.URL ||
+        "",
+
+      price:
+        item.Offers?.Listings?.[0]?.Price?.DisplayAmount ||
+        "Price unavailable",
+
+      oldPrice:
+        item.Offers?.Listings?.[0]?.SavingBasis?.DisplayAmount ||
+        "",
+
+      rating:
+        item.CustomerReviews?.StarRating?.Value ||
+        null,
+
+      reviews:
+        item.CustomerReviews?.Count ||
+        0,
+
+      link:
+        item.DetailPageURL ||
+        ""
+    }));
+
+    res.setHeader(
+      "Cache-Control",
+      "s-maxage=300, stale-while-revalidate=600"
+    );
+
+    return res.status(200).json(products);
+
+  } catch (error) {
+
+    console.error("Amazon API Error:", error);
+
+    return res.status(500).json({
+      error: "Amazon products load nahi ho rahe.",
+      message: error.message
+    });
+  }
+}
+{
+  "name": "shopsathi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "amazon-paapi": "^1.0.0"
+  }
+}
+
+{
+  "version": 2,
+  "functions": {
+    "api/products.js": {
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/products",
+      "dest": "/api/products.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ]
+}
+  node_modules
+.env
+.vercel
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ShopSathi - Smart Shopping</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: white;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px #ddd;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .search {
+      flex: 1;
+      display: flex;
+    }
+
+    .search input {
+      flex: 1;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 8px 0 0 8px;
+      font-size: 16px;
+    }
+
+    .search button {
+      border: none;
+      padding: 13px 20px;
+      background: #ff6b00;
+      color: white;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(
+        135deg,
+        #ff6b00,
+        #ffb347
+      );
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin: 0;
+    }
+
+    .hero p {
+      font-size: 18px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      padding: 20px 5%;
+      background: white;
+      overflow-x: auto;
+    }
+
+    .categories button {
+      white-space: nowrap;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #eee;
+    }
+
+    .categories button:hover {
+      background: #ff6b00;
+      color: white;
+    }
+
+    .section {
+      padding: 30px 5%;
+    }
+
+    .section h2 {
+      margin-bottom: 20px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px #ddd;
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+    }
+
+    .title {
+      font-weight: bold;
+      line-height: 1.4;
+      margin: 10px 0;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .old {
+      color: #888;
+      margin-left: 8px;
+    }
+
+    .rating {
+      color: #f5a623;
+      margin: 8px 0;
+    }
+
+    .buy {
+      display: block;
+      text-align: center;
+      padding: 11px;
+      background: #ff9900;
+      color: white;
+      text-decoration: none;
+      border-radius: 7px;
+      margin-top: 12px;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 35px;
+      margin-top: 30px;
+    }
+
+    @media(max-width:700px) {
+
+      header {
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        width: 100%;
+        text-align: center;
+      }
+
+      .search {
+        width: 100%;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    🛍️ ShopSathi
+  </div>
+
+  <div class="search">
+
+    <input
+      id="search"
+      placeholder="Search products..."
+      onkeydown="
+        if(event.key === 'Enter')
+        searchProducts()
+      "
+    >
+
+    <button onclick="searchProducts()">
+      🔍 Search
+    </button>
+
+  </div>
+
+</header>
 
 
+<section class="hero">
+
+  <h1>ShopSathi</h1>
+
+  <p>
+    Find products from Amazon in one place.
+  </p>
+
+</section>
 
 
-  
-      
+<div class="categories">
+
+  <button onclick="searchCategory('mobile phone')">
+    📱 Mobiles
+  </button>
+
+  <button onclick="searchCategory('laptop')">
+    💻 Laptops
+  </button>
+
+  <button onclick="searchCategory('electronics')">
+    🔌 Electronics
+  </button>
+
+  <button onclick="searchCategory('headphones')">
+    🎧 Headphones
+  </button>
+
+  <button onclick="searchCategory('fashion')">
+    👕 Fashion
+  </button>
+
+  <button onclick="searchCategory('shoes')">
+    👟 Shoes
+  </button>
+
+  <button onclick="searchCategory('beauty products')">
+    💄 Beauty
+  </button>
+
+  <button onclick="searchCategory('home appliances')">
+    🏠 Home
+  </button>
+
+  <button onclick="searchCategory('kitchen products')">
+    🍳 Kitchen
+  </button>
+
+  <button onclick="searchCategory('sports products')">
+    ⚽ Sports
+  </button>
+
+  <button onclick="searchCategory('watches')">
+    ⌚ Watches
+  </button>
+
+  <button onclick="searchCategory('bags')">
+    🎒 Bags
+  </button>
+
+</div>
+
+
+<section
+  id="searchSection"
+  class="section"
+  style="display:none"
+>
+
+  <h2 id="searchTitle">
+    Search Results
+  </h2>
+
+  <div
+    id="searchProducts"
+    class="products"
+  ></div>
+
+</section>
+
+
+<div id="homeSections">
+
+  <section class="section">
+
+    <h2>🔥 Trending Products</h2>
+
+    <div
+      id="trending"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>📱 Mobiles</h2>
+
+    <div
+      id="mobiles"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>💻 Laptops</h2>
+
+    <div
+      id="laptops"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>🔌 Electronics</h2>
+
+    <div
+      id="electronics"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>🎧 Headphones</h2>
+
+    <div
+      id="headphones"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>👕 Fashion</h2>
+
+    <div
+      id="fashion"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>👟 Shoes</h2>
+
+    <div
+      id="shoes"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>💄 Beauty</h2>
+
+    <div
+      id="beauty"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>🏠 Home</h2>
+
+    <div
+      id="home"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>🍳 Kitchen</h2>
+
+    <div
+      id="kitchen"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>⚽ Sports</h2>
+
+    <div
+      id="sports"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>⌚ Watches</h2>
+
+    <div
+      id="watches"
+      class="products"
+    ></div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>🎒 Bags</h2>
+
+    <div
+      id="bags"
+      class="products"
+    ></div>
+
+  </section>
+
+</div>
+
+
+<footer>
+
+  <h2>🛍️ ShopSathi</h2>
+
+  <p>
+    Your smart shopping companion.
+  </p>
+
+  <p>
+    © 2026 ShopSathi
+  </p>
+
+</footer>
+
+
+<script>
+
+async function getProducts(keyword) {
+
+  const response = await fetch(
+    "/api/products?q=" +
+    encodeURIComponent(keyword)
+  );
+
+  if (!response.ok) {
+    throw new Error("API request failed");
+  }
+
+  return await response.json();
+}
+
+
+function escapeHTML(value) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    value || "";
+
+  return div.innerHTML;
+}
+
+
+function renderProducts(
+  products,
+  elementId
+) {
+
+  const container =
+    document.getElementById(elementId);
+
+  if (!container) return;
+
+  if (!products.length) {
+
+    container.innerHTML =
+      "<p>No products found.</p>";
+
+    return;
+  }
+
+  container.innerHTML =
+    products.map(product => `
+
+      <div class="card">
+
+        <img
+          src="${product.image}"
+          alt="${escapeHTML(product.title)}"
+          loading="lazy"
+        >
+
+        <div class="title">
+          ${escapeHTML(product.title)}
+        </div>
+
+        <div class="price">
+
+          ${product.price}
+
+          ${
+            product.oldPrice
+              ? `
+                <span class="old">
+                  <del>
+                    ${product.oldPrice}
+                  </del>
+                </span>
+              `
+              : ""
+          }
+
+        </div>
+
+        <div class="rating">
+
+          ⭐ ${product.rating || "N/A"}
+
+          ${
+            product.reviews
+              ? ` (${product.reviews})`
+              : ""
+          }
+
+        </div>
+
+        <a
+          class="buy"
+          href="${product.link}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Buy on Amazon
+        </a>
+
+      </div>
+
+    `).join("");
+}
+
+
+async function loadCategory(
+  keyword,
+  elementId
+) {
+
+  const container =
+    document.getElementById(elementId);
+
+  container.innerHTML =
+    "<p>Loading products...</p>";
+
+  try {
+
+    const products =
+      await getProducts(keyword);
+
+    renderProducts(
+      products,
+      elementId
+    );
+
+  } catch(error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Products load nahi ho rahe.</p>";
+  }
+}
+
+
+async function searchProducts() {
+
+  const keyword =
+    document
+      .getElementById("search")
+      .value
+      .trim();
+
+  if (!keyword) return;
+
+  document.getElementById(
+    "homeSections"
+  ).style.display = "none";
+
+  document.getElementById(
+    "searchSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "searchTitle"
+  ).innerText =
+    `🔎 Results for "${keyword}"`;
+
+  await loadCategory(
+    keyword,
+    "searchProducts"
+  );
+
+}
+
+
+async function searchCategory(keyword) {
+
+  document.getElementById(
+    "homeSections"
+  ).style.display = "none";
+
+  document.getElementById(
+    "searchSection"
+  ).style.display = "block";
+
+  document.getElementById(
+    "searchTitle"
+  ).innerText =
+    `🛍️ ${keyword}`;
+
+  await loadCategory(
+    keyword,
+    "searchProducts"
+  );
+
+}
+
+
+async function loadHome() {
+
+  await Promise.all([
+
+    loadCategory(
+      "best selling products",
+      "trending"
+    ),
+
+    loadCategory(
+      "mobile phone",
+      "mobiles"
+    ),
+
+    loadCategory(
+      "laptop",
+      "laptops"
+    ),
+
+    loadCategory(
+      "electronics",
+      "electronics"
+    ),
+
+    loadCategory(
+      "headphones",
+      "headphones"
+    ),
+
+    loadCategory(
+      "fashion",
+      "fashion"
+    ),
+
+    loadCategory(
+      "shoes",
+      "shoes"
+    ),
+
+    loadCategory(
+      "beauty products",
+      "beauty"
+    ),
+
+    loadCategory(
+      "home appliances",
+      "home"
+    ),
+
+    loadCategory(
+      "kitchen products",
+      "kitchen"
+    ),
+
+    loadCategory(
+      "sports products",
+      "sports"
+    ),
+
+    loadCategory(
+      "watches",
+      "watches"
+    ),
+
+    loadCategory(
+      "bags",
+      "bags"
+    )
+
+  ]);
+
+}
+
+
+loadHome();
+
+</script>
+
+</body>
+
+</html>    
         
-
+AMAZON_ACCESS_KEY
+AMAZON_SECRET_KEY
+AMAZON_PARTNER_TAG
       
 
       
