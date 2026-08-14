@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>ShopSathi AI</title>
 
 <style>
@@ -39,7 +38,7 @@ header{
 
 .hero{
   text-align:center;
-  padding:65px 20px 40px;
+  padding:60px 20px 35px;
 }
 
 .badge{
@@ -50,25 +49,25 @@ header{
   border-radius:30px;
   font-size:14px;
   font-weight:bold;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
-.hero h1{
+h1{
   font-size:44px;
-  margin-bottom:15px;
+  margin-bottom:14px;
 }
 
-.hero h1 span{
+h1 span{
   color:#5b5bf7;
 }
 
 .hero p{
-  font-size:18px;
   color:#667085;
-  margin-bottom:28px;
+  font-size:18px;
+  margin-bottom:25px;
 }
 
-.chat-box{
+.search{
   max-width:720px;
   margin:auto;
   background:#fff;
@@ -80,11 +79,11 @@ header{
 textarea{
   width:100%;
   min-height:110px;
-  padding:15px;
   border:1px solid #ddd;
   border-radius:12px;
-  resize:vertical;
+  padding:15px;
   font-size:16px;
+  resize:vertical;
   outline:none;
 }
 
@@ -92,21 +91,21 @@ textarea:focus{
   border-color:#5b5bf7;
 }
 
-.ask-btn{
+.ask{
   width:100%;
+  border:0;
   margin-top:10px;
   padding:15px;
-  border:0;
   border-radius:10px;
   background:#5b5bf7;
-  color:white;
+  color:#fff;
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.ask-btn:disabled{
-  opacity:.7;
+.ask:disabled{
+  opacity:.6;
   cursor:wait;
 }
 
@@ -119,17 +118,17 @@ textarea:focus{
 }
 
 .examples button{
-  padding:10px 14px;
-  background:white;
   border:1px solid #ddd;
+  background:#fff;
+  padding:10px 14px;
   border-radius:20px;
   cursor:pointer;
 }
 
-#loading{
-  max-width:800px;
+.loading{
+  max-width:850px;
   margin:25px auto;
-  background:white;
+  background:#fff;
   padding:20px;
   border-radius:15px;
   text-align:center;
@@ -141,140 +140,96 @@ textarea:focus{
   display:none;
 }
 
-.ai-result{
-  max-width:900px;
+.ai-box{
+  max-width:850px;
   margin:25px auto;
-  background:white;
   padding:25px;
+  background:#fff;
   border-radius:18px;
   box-shadow:0 4px 20px rgba(0,0,0,.07);
 }
 
-.ai-result h2{
-  margin-bottom:12px;
+.ai-box h2{
+  margin-bottom:15px;
 }
 
-.ai-text{
+.answer{
   color:#475467;
   line-height:1.7;
   white-space:pre-wrap;
-  margin-bottom:25px;
 }
 
-
-/* PRODUCT GRID */
-
-.products-section{
+.products{
   max-width:1100px;
   margin:30px auto 60px;
   padding:0 20px;
 }
 
-.products-title{
+.products h2{
   margin-bottom:20px;
-  font-size:26px;
 }
 
-.product-grid{
+.grid{
   display:grid;
   grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
+    repeat(auto-fit,minmax(230px,1fr));
   gap:20px;
 }
 
-.product-card{
-  background:white;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 4px 18px rgba(0,0,0,.08);
-  transition:.2s;
-  display:flex;
-  flex-direction:column;
-}
-
-.product-card:hover{
-  transform:translateY(-3px);
-}
-
-.product-image-wrap{
-  height:220px;
+.card{
   background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  text-align:center;
 }
 
-.product-image{
-  max-width:100%;
-  max-height:190px;
-  object-fit:contain;
-}
-
-.product-info{
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  flex:1;
-}
-
-.product-title{
-  font-size:15px;
-  line-height:1.45;
+.icon{
+  font-size:60px;
   margin-bottom:12px;
 }
 
-.price{
-  font-size:21px;
-  font-weight:bold;
-  margin-bottom:8px;
+.card h3{
+  font-size:18px;
+  margin-bottom:10px;
 }
 
-.rating{
-  color:#d97706;
-  margin-bottom:15px;
+.card p{
+  color:#667085;
   font-size:14px;
+  line-height:1.5;
+  margin-bottom:18px;
 }
 
-.amazon-btn{
+.amazon{
   display:block;
-  margin-top:auto;
-  padding:12px;
-  text-align:center;
   background:#172033;
-  color:white;
+  color:#fff;
   text-decoration:none;
+  padding:13px;
   border-radius:9px;
   font-weight:bold;
 }
 
-.amazon-btn:hover{
+.amazon:hover{
   background:#5b5bf7;
-}
-
-.no-products{
-  background:white;
-  padding:25px;
-  border-radius:15px;
-  color:#667085;
-  text-align:center;
 }
 
 .features{
   display:flex;
   justify-content:center;
   gap:20px;
-  padding:25px;
   flex-wrap:wrap;
-  margin-bottom:50px;
+  padding:20px;
+  margin-bottom:40px;
 }
 
 .feature{
-  background:white;
-  padding:22px;
-  border-radius:15px;
   width:230px;
+  background:#fff;
+  padding:22px;
   text-align:center;
+  border-radius:15px;
   box-shadow:0 3px 15px rgba(0,0,0,.05);
 }
 
@@ -293,13 +248,13 @@ textarea:focus{
 }
 
 footer{
+  background:#172033;
+  color:#fff;
   text-align:center;
   padding:30px;
-  background:#172033;
-  color:white;
 }
 
-.disclosure{
+.small{
   font-size:12px;
   opacity:.7;
   margin-top:8px;
@@ -311,56 +266,35 @@ footer{
     padding:15px;
   }
 
-  header>div:last-child{
+  header div:last-child{
     display:none;
   }
 
-  .hero{
-    padding:50px 15px 30px;
-  }
-
-  .hero h1{
+  h1{
     font-size:34px;
   }
 
-  .hero p{
-    font-size:16px;
+  .hero{
+    padding:45px 15px 30px;
   }
 
-  #loading,
-  .ai-result{
+  .ai-box,
+  .loading{
     margin-left:15px;
     margin-right:15px;
   }
 
-  .product-grid{
-    grid-template-columns:
-      repeat(2,minmax(0,1fr));
+  .grid{
+    grid-template-columns:1fr 1fr;
     gap:12px;
   }
 
-  .product-image-wrap{
-    height:170px;
+  .card{
+    padding:15px;
   }
 
-  .product-image{
-    max-height:145px;
-  }
-
-  .product-info{
-    padding:12px;
-  }
-
-  .product-title{
-    font-size:13px;
-  }
-
-  .price{
-    font-size:17px;
-  }
-
-  .feature{
-    width:100%;
+  .icon{
+    font-size:45px;
   }
 }
 </style>
@@ -369,15 +303,13 @@ footer{
 <body>
 
 <header>
-
   <div class="logo">
     Shop<span>Sathi</span> AI 🛍️
   </div>
 
   <div>
-    Smart Shopping Assistant
+    Smart Shopping
   </div>
-
 </header>
 
 
@@ -388,25 +320,24 @@ footer{
   </div>
 
   <h1>
-    Find products with
-    <span>ShopSathi AI</span>
+    Find the <span>Best Product</span>
   </h1>
 
   <p>
-    Apni requirement aur budget batao.
+    Apni requirement aur budget ShopSathi ko batao.
   </p>
 
-  <div class="chat-box">
+  <div class="search">
 
     <textarea
-      id="userInput"
-      placeholder="Example: Mujhe ₹2000 ke andar daily use ke running shoes chahiye..."
+      id="input"
+      placeholder="Example: Mujhe ₹2000 ke andar running shoes chahiye..."
     ></textarea>
 
     <button
-      id="askButton"
-      class="ask-btn"
-      onclick="askAI()"
+      id="ask"
+      class="ask"
+      onclick="searchProducts()"
     >
       ✨ Ask ShopSathi AI
     </button>
@@ -416,16 +347,16 @@ footer{
 
   <div class="examples">
 
-    <button onclick="useExample('Mujhe ₹2000 ke andar running shoes chahiye')">
-      👟 Shoes under ₹2000
+    <button onclick="example('Mujhe ₹2000 ke andar running shoes chahiye')">
+      👟 Shoes
     </button>
 
-    <button onclick="useExample('Mujhe ₹1500 ke andar headphones chahiye')">
-      🎧 Headphones under ₹1500
+    <button onclick="example('Mujhe ₹1500 ke andar headphones chahiye')">
+      🎧 Headphones
     </button>
 
-    <button onclick="useExample('Mujhe ₹1000 ke andar school bag chahiye')">
-      🎒 School bag under ₹1000
+    <button onclick="example('Mujhe ₹1000 ke andar school bag chahiye')">
+      🎒 School Bag
     </button>
 
   </div>
@@ -433,38 +364,43 @@ footer{
 </section>
 
 
-<div id="loading" class="hidden">
-  🤖 ShopSathi AI products search kar raha hai...
+<div
+  id="loading"
+  class="loading hidden"
+>
+  🤖 ShopSathi AI search kar raha hai...
 </div>
 
 
 <section
-  id="aiResult"
-  class="ai-result hidden"
+  id="ai"
+  class="ai-box hidden"
 >
 
-  <h2>🤖 ShopSathi AI</h2>
+  <h2>
+    🤖 ShopSathi AI
+  </h2>
 
   <div
     id="answer"
-    class="ai-text"
+    class="answer"
   ></div>
 
 </section>
 
 
 <section
-  id="productsSection"
-  class="products-section hidden"
+  id="products"
+  class="products hidden"
 >
 
-  <h2 class="products-title">
-    🛍️ Recommended Products
+  <h2>
+    🛍️ Amazon Product Searches
   </h2>
 
   <div
-    id="productGrid"
-    class="product-grid"
+    id="grid"
+    class="grid"
   ></div>
 
 </section>
@@ -473,47 +409,21 @@ footer{
 <section class="features">
 
   <div class="feature">
-
-    <div class="feature-icon">
-      🤖
-    </div>
-
-    <h3>AI Suggestions</h3>
-
-    <p>
-      Apni requirement batao aur AI se guidance lo.
-    </p>
-
+    <div class="feature-icon">🤖</div>
+    <h3>AI Advice</h3>
+    <p>AI tumhari shopping requirement samjhega.</p>
   </div>
 
-
   <div class="feature">
-
-    <div class="feature-icon">
-      💰
-    </div>
-
-    <h3>Budget Search</h3>
-
-    <p>
-      Apna budget include karo.
-    </p>
-
+    <div class="feature-icon">💰</div>
+    <h3>Budget</h3>
+    <p>Apna budget search mein include karo.</p>
   </div>
 
-
   <div class="feature">
-
-    <div class="feature-icon">
-      🛒
-    </div>
-
-    <h3>Amazon Products</h3>
-
-    <p>
-      Real catalog products cards mein dekho.
-    </p>
-
+    <div class="feature-icon">🛒</div>
+    <h3>Amazon</h3>
+    <p>Product search ko Amazon par continue karo.</p>
   </div>
 
 </section>
@@ -526,7 +436,7 @@ footer{
 
   Created by <strong>Naitik Wankhade</strong>
 
-  <div class="disclosure">
+  <div class="small">
     As an Amazon Associate I earn from qualifying purchases.
   </div>
 
@@ -535,55 +445,76 @@ footer{
 
 <script>
 
-async function askAI(){
+const AMAZON_TAG = "shopsathi01-21";
+
+
+function example(text){
+
+  document.getElementById("input").value = text;
+
+}
+
+
+function amazonSearch(query){
+
+  return (
+    "https://www.amazon.in/s?k=" +
+    encodeURIComponent(query) +
+    "&tag=" +
+    encodeURIComponent(AMAZON_TAG)
+  );
+
+}
+
+
+async function searchProducts(){
 
   const input =
-    document
-      .getElementById("userInput")
-      .value
-      .trim();
+    document.getElementById("input")
+    .value
+    .trim();
+
 
   if(!input){
 
-    alert(
-      "Pehle apni shopping requirement likho."
-    );
+    alert("Pehle product requirement likho.");
 
     return;
+
   }
 
 
-  const button =
-    document.getElementById("askButton");
+  const ask =
+    document.getElementById("ask");
 
   const loading =
     document.getElementById("loading");
 
-  const aiResult =
-    document.getElementById("aiResult");
+  const ai =
+    document.getElementById("ai");
 
   const answer =
     document.getElementById("answer");
 
-  const productsSection =
-    document.getElementById("productsSection");
+  const products =
+    document.getElementById("products");
 
-  const productGrid =
-    document.getElementById("productGrid");
+  const grid =
+    document.getElementById("grid");
 
 
-  button.disabled = true;
+  ask.disabled = true;
 
-  button.textContent =
+  ask.textContent =
     "🤖 Searching...";
 
   loading.classList.remove("hidden");
 
-  aiResult.classList.add("hidden");
+  ai.classList.add("hidden");
 
-  productsSection.classList.add("hidden");
+  products.classList.add("hidden");
 
-  productGrid.innerHTML = "";
+  grid.innerHTML = "";
 
 
   try{
@@ -614,7 +545,7 @@ async function askAI(){
 
       throw new Error(
         data.error ||
-        "Request failed"
+        "AI request failed"
       );
 
     }
@@ -622,16 +553,66 @@ async function askAI(){
 
     answer.textContent =
       data.reply ||
-      "AI recommendation available.";
+      "Aapki search Amazon par ready hai.";
 
 
-    aiResult.classList.remove(
-      "hidden"
+    ai.classList.remove("hidden");
+
+
+    /*
+      AI backend returns search suggestions.
+      Each suggestion becomes a product card.
+    */
+
+    const searches =
+      data.searches || [
+        input
+      ];
+
+
+    searches.forEach(
+      (search, index) => {
+
+        const card =
+          document.createElement("div");
+
+        card.className =
+          "card";
+
+
+        card.innerHTML = `
+          <div class="icon">
+            ${getIcon(search)}
+          </div>
+
+          <h3>
+            ${escapeHtml(search)}
+          </h3>
+
+          <p>
+            Amazon par is product ke
+            available results dekhein.
+          </p>
+
+          <a
+            class="amazon"
+            href="${amazonSearch(search)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🛒 View on Amazon
+          </a>
+        `;
+
+
+        grid.appendChild(card);
+
+      }
     );
 
 
-    renderProducts(
-      data.products || []
+    products.classList.remove(
+      "hidden"
     );
 
 
@@ -640,9 +621,44 @@ async function askAI(){
     console.error(error);
 
     answer.textContent =
-      "Products load nahi ho paaye. API configuration check karo.";
+      "AI connect nahi ho paya. Vercel Environment Variables check karo.";
 
-    aiResult.classList.remove(
+    ai.classList.remove("hidden");
+
+    /*
+      Even if AI fails, the user's
+      search still gets an Amazon card.
+    */
+
+    grid.innerHTML = `
+      <div class="card">
+
+        <div class="icon">
+          🛍️
+        </div>
+
+        <h3>
+          ${escapeHtml(input)}
+        </h3>
+
+        <p>
+          Amazon par is product ke
+          results dekhein.
+        </p>
+
+        <a
+          class="amazon"
+          href="${amazonSearch(input)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          🛒 View on Amazon
+        </a>
+
+      </div>
+    `;
+
+    products.classList.remove(
       "hidden"
     );
 
@@ -651,248 +667,116 @@ async function askAI(){
 
   loading.classList.add("hidden");
 
-  button.disabled = false;
+  ask.disabled = false;
 
-  button.textContent =
+  ask.textContent =
     "✨ Ask ShopSathi AI";
 
 
-  window.scrollTo({
-    top:
-      aiResult.offsetTop - 20,
+  products.scrollIntoView({
     behavior:"smooth"
   });
 
 }
 
 
-function renderProducts(products){
+function getIcon(text){
 
-  const section =
-    document.getElementById(
-      "productsSection"
-    );
-
-  const grid =
-    document.getElementById(
-      "productGrid"
-    );
+  const value =
+    text.toLowerCase();
 
 
-  grid.innerHTML = "";
-
-
-  if(!products.length){
-
-    grid.innerHTML = `
-      <div class="no-products">
-        Is search ke liye products nahi mile.
-      </div>
-    `;
-
-    section.classList.remove(
-      "hidden"
-    );
-
-    return;
+  if(
+    value.includes("shoe") ||
+    value.includes("joota")
+  ){
+    return "👟";
   }
 
+  if(
+    value.includes("headphone") ||
+    value.includes("earphone")
+  ){
+    return "🎧";
+  }
 
-  products.forEach(product => {
+  if(
+    value.includes("bag")
+  ){
+    return "🎒";
+  }
 
-    const card =
-      document.createElement(
-        "article"
-      );
+  if(
+    value.includes("watch")
+  ){
+    return "⌚";
+  }
 
-    card.className =
-      "product-card";
+  if(
+    value.includes("phone") ||
+    value.includes("mobile")
+  ){
+    return "📱";
+  }
 
+  if(
+    value.includes("laptop")
+  ){
+    return "💻";
+  }
 
-    const imageWrap =
-      document.createElement(
-        "div"
-      );
+  if(
+    value.includes("camera")
+  ){
+    return "📷";
+  }
 
-    imageWrap.className =
-      "product-image-wrap";
-
-
-    const image =
-      document.createElement(
-        "img"
-      );
-
-    image.className =
-      "product-image";
-
-    image.src =
-      product.image || "";
-
-    image.alt =
-      product.title || "Product";
-
-    image.loading =
-      "lazy";
-
-
-    image.onerror =
-      function(){
-
-        imageWrap.innerHTML =
-          "<div style='font-size:50px'>🛍️</div>";
-
-      };
-
-
-    imageWrap.appendChild(
-      image
-    );
-
-
-    const info =
-      document.createElement(
-        "div"
-      );
-
-    info.className =
-      "product-info";
-
-
-    const title =
-      document.createElement(
-        "h3"
-      );
-
-    title.className =
-      "product-title";
-
-    title.textContent =
-      product.title ||
-      "Amazon Product";
-
-
-    const price =
-      document.createElement(
-        "div"
-      );
-
-    price.className =
-      "price";
-
-    price.textContent =
-      product.price ||
-      "Price unavailable";
-
-
-    const rating =
-      document.createElement(
-        "div"
-      );
-
-    rating.className =
-      "rating";
-
-
-    if(
-      product.rating !== null &&
-      product.rating !== undefined
-    ){
-
-      rating.textContent =
-        "⭐ " +
-        product.rating;
-
-      if(product.reviewCount){
-
-        rating.textContent +=
-          " (" +
-          product.reviewCount +
-          " reviews)";
-
-      }
-
-    }else{
-
-      rating.textContent =
-        "Rating unavailable";
-
-    }
-
-
-    const button =
-      document.createElement(
-        "a"
-      );
-
-    button.className =
-      "amazon-btn";
-
-    button.textContent =
-      "🛒 View on Amazon";
-
-    button.href =
-      product.url || "#";
-
-    button.target =
-      "_blank";
-
-    button.rel =
-      "noopener noreferrer";
-
-
-    info.appendChild(
-      title
-    );
-
-    info.appendChild(
-      price
-    );
-
-    info.appendChild(
-      rating
-    );
-
-    info.appendChild(
-      button
-    );
-
-
-    card.appendChild(
-      imageWrap
-    );
-
-    card.appendChild(
-      info
-    );
-
-
-    grid.appendChild(
-      card
-    );
-
-  });
-
-
-  section.classList.remove(
-    "hidden"
-  );
+  return "🛍️";
 
 }
 
 
-function useExample(text){
+function escapeHtml(text){
 
-  document.getElementById(
-    "userInput"
-  ).value = text;
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
 
 }
 
 </script>
 
 </body>
-  </html>
+</html>
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
+
+
       
 
 
