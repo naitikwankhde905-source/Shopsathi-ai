@@ -342,7 +342,68 @@ function findProducts() {
     };
 
     let products = category ? allProducts[category] : [];
+const results = document.getElementById("results");
 
+if (!products || products.length === 0) {
+  results.innerHTML = "<h2>😕 Product nahi mila</h2>";
+  results.scrollIntoView({ behavior: "smooth" });
+  return;
+}
+
+results.innerHTML = `
+  <h2>🛍️ Recommended Products</h2>
+  <div class="products-grid">
+    ${products.map(product => `
+      <div class="product-card">
+        <div class="product-emoji">${product.emoji}</div>
+        <h3>${product.name}</h3>
+        <p>₹${product.price}</p>
+        <p>${product.rating}</p>
+        <button onclick="alert('Product: ${product.name}')">
+          View Product
+        </button>
+      </div>
+    `).join("")}
+  </div>
+`;
+
+results.scrollIntoView({ behavior: "smooth" });
+
+
+
+  
+
+
+  
+  
+    
+        
+      
+ 
+  
+  
+  
+
+
+
+ 
+  
+   
+      
+        
+        
+        
+        
+     
+        
+        
+      
+  
+ 
+ 
+
+ 
+ results.scrollIntoView({ behavior: "smooth" });
     if (budget !== null) {
         products = products.filter(product => product.price <= budget);
     }
