@@ -290,47 +290,99 @@
     © 2026 ShopSathi AI — Smart Shopping Assistant
   </footer>
 
- <script>
-function findProducts() {
+<script>
+async function findProducts() {
     const input = document.getElementById("searchInput").value.trim();
 
     if (input === "") {
-        alert("Please enter a product, for example: shoes under 2000");
+        alert("Please enter a product");
         return;
     }
 
     const results = document.getElementById("results");
 
-    results.innerHTML = `
-        <h2>🛍️ Recommended Products</h2>
+    results.innerHTML = "<h2>🔎 Products loading...</h2>";
 
-        <div class="product-card">
-            <h3>👟 Sports Shoes</h3>
-            <p>Price: ₹1,499</p>
-            <p>⭐ 4.5/5</p>
-            <button>View Product</button>
-        </div>
+    try {
+        const response = await fetch(
+            "https://dummyjson.com/products/search?q=" +
+            encodeURIComponent(input)
+        );
 
-        <div class="product-card">
-            <h3>🎧 Wireless Headphones</h3>
-            <p>Price: ₹999</p>
-            <p>⭐ 4.3/5</p>
-            <button>View Product</button>
-        </div>
+        const data = await response.json();
 
-        <div class="product-card">
-            <h3>⌚ Smart Watch</h3>
-            <p>Price: ₹1,799</p>
-            <p>⭐ 4.4/5</p>
-            <button>View Product</button>
-        </div>
-    `;
+        if (data.products.length === 0) {
+            results.innerHTML = "<h2>❌ Product nahi mila</h2>";
+            return;
+        }
 
-    results.scrollIntoView({
-        behavior: "smooth"
-    });
+        results.innerHTML = `
+            <h2>🛍️ Products</h2>
+            <div class="product-list">
+                ${data.products.slice(0, 6).map(product => `
+                    <div class="product-card">
+                        <img src="${product.thumbnail}"
+                             alt="${product.title}"
+                             style="width:150px;height:150px;object-fit:contain;">
+                        <h3>${product.title}</h3>
+                        <p>💰 Price: $${product.price}</p>
+                        <p>⭐ Rating: ${product.rating}</p>
+                        <p>${product.description}</p>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+
+        results.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+        results.innerHTML =
+            "<h2>❌ Products load nahi ho rahe.</h2>";
+    }
 }
-</script>
+         </script> 
+
+    
+
+    
+        
+       
+    
+
+    
+
+    
+       
+
+        
+            
+            
+            
+            
+        
+
+        
+            
+            
+            
+            
+        
+
+        
+            
+            
+            
+            
+        
+    
+
+    
+        
+    
+
+
 
  
   
