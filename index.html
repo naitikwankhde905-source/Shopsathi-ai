@@ -292,16 +292,57 @@
 
  <script>
 function findProducts() {
-  const input = document.getElementById("searchInput").value.trim();
+    const input = document.getElementById("searchInput").value.trim();
 
-  if (input === "") {
-    alert("Please tell us what product you are looking for.");
-    return;
-  }
+    if (input === "") {
+        alert("Please enter a product, for example: shoes under 2000");
+        return;
+    }
 
-  document.getElementById("results").scrollIntoView({
-    behavior: "smooth"
-  });
+    const results = document.getElementById("results");
+
+    results.innerHTML = `
+        <h2>🛍️ Recommended Products</h2>
+
+        <div class="product-card">
+            <h3>👟 Sports Shoes</h3>
+            <p>Price: ₹1,499</p>
+            <p>⭐ 4.5/5</p>
+            <button>View Product</button>
+        </div>
+
+        <div class="product-card">
+            <h3>🎧 Wireless Headphones</h3>
+            <p>Price: ₹999</p>
+            <p>⭐ 4.3/5</p>
+            <button>View Product</button>
+        </div>
+
+        <div class="product-card">
+            <h3>⌚ Smart Watch</h3>
+            <p>Price: ₹1,799</p>
+            <p>⭐ 4.4/5</p>
+            <button>View Product</button>
+        </div>
+    `;
+
+    results.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+</script>
+
+ 
+  
+
+  
+    
+   
+ 
+
+  
+    
+  
 
   alert("ShopSathi AI is finding the best products for: " + input);
 
