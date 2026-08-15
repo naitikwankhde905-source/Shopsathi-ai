@@ -1,611 +1,1136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <title>ShopSathi AI</title>
+<title>ShopSathi AI - Smart Shopping Assistant</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter,Arial,sans-serif;
+}
 
-    body {
-      background: #f5f7fb;
-      color: #172033;
-    }
+body{
+  background:#f7f8fc;
+  color:#111827;
+}
 
-    header {
-      background: white;
-      padding: 18px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
+/* NAVBAR */
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
+.navbar{
+  height:70px;
+  background:#ffffff;
+  border-bottom:1px solid #e8eaf0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 7%;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
 
-    .logo span {
-      color: #5b5bf7;
-    }
+.logo{
+  font-size:23px;
+  font-weight:800;
+  color:#111827;
+}
 
-    .hero {
-      text-align: center;
-      padding: 55px 20px 30px;
-    }
+.logo span{
+  color:#635bff;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-    .hero h1 span {
-      color: #5b5bf7;
-    }
+.nav-badge{
+  background:#f0efff;
+  color:#554bdc;
+  padding:8px 14px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:600;
+}
 
-    .hero p {
-      color: #667085;
-      font-size: 18px;
-      margin-bottom: 25px;
-    }
+/* HERO */
 
-    .search-box {
-      max-width: 750px;
-      margin: auto;
-      background: white;
-      padding: 10px;
-      border-radius: 16px;
-      display: flex;
-      gap: 8px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-    }
+.hero{
+  max-width:1050px;
+  margin:auto;
+  text-align:center;
+  padding:75px 20px 45px;
+}
 
-    .search-box input {
-      flex: 1;
-      min-width: 0;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-      outline: none;
-    }
+.ai-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 14px;
+  background:#eeedff;
+  color:#5148d9;
+  border:1px solid #dedcff;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:22px;
+}
 
-    .mic-btn,
-    .search-btn {
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      padding: 0 18px;
-    }
+.hero h1{
+  font-size:54px;
+  line-height:1.08;
+  letter-spacing:-2px;
+  margin-bottom:18px;
+}
 
-    .mic-btn {
-      background: #eef0ff;
-      color: #5b5bf7;
-      font-size: 21px;
-    }
+.hero h1 span{
+  color:#635bff;
+}
 
-    .mic-btn.listening {
-      background: #ffe4e4;
-      color: #d11a2a;
-    }
+.hero p{
+  max-width:650px;
+  margin:auto;
+  color:#667085;
+  font-size:17px;
+  line-height:1.6;
+}
 
-    .search-btn {
-      background: #5b5bf7;
-      color: white;
-      font-size: 15px;
-    }
+/* SEARCH */
 
-    .search-btn:hover {
-      background: #4545d8;
-    }
+.search-box{
+  max-width:780px;
+  margin:35px auto 0;
+  background:#fff;
+  padding:10px;
+  border:1px solid #e4e6ed;
+  border-radius:18px;
+  box-shadow:0 12px 35px rgba(30,35,60,.08);
+}
 
-    .features {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 25px 20px;
-      flex-wrap: wrap;
-    }
+.input-area{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-    .feature {
-      background: white;
-      padding: 22px;
-      border-radius: 15px;
-      width: 220px;
-      text-align: center;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
-    }
+textarea{
+  width:100%;
+  min-height:75px;
+  border:0;
+  outline:none;
+  resize:none;
+  padding:13px;
+  font-size:16px;
+  color:#111827;
+}
 
-    .feature-icon {
-      font-size: 32px;
-    }
+textarea::placeholder{
+  color:#98a2b3;
+}
 
-    .feature h3 {
-      margin: 10px 0;
-    }
+.voice-btn{
+  width:45px;
+  height:45px;
+  flex-shrink:0;
+  border:1px solid #e3e5ec;
+  background:#f8f9fc;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:19px;
+}
 
-    .feature p {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+.voice-btn:hover{
+  background:#eeedff;
+}
 
-    #results {
-      max-width: 900px;
-      margin: 20px auto 50px;
-      padding: 20px;
-    }
+.bottom-search{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-top:1px solid #edf0f4;
+  padding:9px 4px 2px;
+}
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
-      margin-bottom: 20px;
-    }
+.ai-status{
+  color:#98a2b3;
+  font-size:12px;
+}
 
-    .card h2 {
-      margin-bottom: 12px;
-    }
+.ask-btn{
+  border:0;
+  background:#635bff;
+  color:#fff;
+  padding:11px 20px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+}
 
-    .ai-card {
-      border-left: 5px solid #5b5bf7;
-    }
+.ask-btn:hover{
+  background:#5048e5;
+}
 
-    .ai-answer {
-      color: #4b5563;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
+.ask-btn:disabled{
+  opacity:.6;
+  cursor:wait;
+}
 
-    .amazon-btn {
-      display: inline-block;
-      background: #172033;
-      color: white;
-      padding: 13px 20px;
-      border-radius: 9px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 15px;
-    }
+/* EXAMPLES */
 
-    .amazon-btn:hover {
-      background: #5b5bf7;
-    }
+.examples{
+  margin-top:20px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
 
-    .loading {
-      color: #667085;
-      padding: 10px 0;
-    }
+.example{
+  border:1px solid #e1e4ea;
+  background:#fff;
+  color:#475467;
+  padding:8px 13px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:13px;
+}
 
-    .error {
-      color: #c62828;
-      background: #fff1f1;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
+.example:hover{
+  border-color:#635bff;
+  color:#635bff;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #172033;
-      color: white;
-    }
+/* TRUST */
 
-    @media (max-width: 600px) {
+.trust{
+  display:flex;
+  justify-content:center;
+  gap:35px;
+  flex-wrap:wrap;
+  margin:30px auto 0;
+  color:#667085;
+  font-size:13px;
+}
 
-      .hero h1 {
-        font-size: 32px;
-      }
+.trust span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
 
-      .search-box {
-        flex-wrap: wrap;
-      }
+/* LOADING */
 
-      .search-box input {
-        width: 100%;
-        flex-basis: 100%;
-      }
+.loading{
+  max-width:780px;
+  margin:20px auto;
+  background:#fff;
+  border:1px solid #e4e6ed;
+  padding:17px;
+  border-radius:14px;
+  text-align:center;
+  color:#635bff;
+  font-weight:600;
+}
 
-      .mic-btn,
-      .search-btn {
-        height: 48px;
-      }
+.hidden{
+  display:none !important;
+}
 
-      .search-btn {
-        flex: 1;
-      }
+/* AI ANSWER */
 
-      header {
-        padding: 15px;
-      }
+.ai-result{
+  max-width:900px;
+  margin:25px auto;
+  padding:24px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:17px;
+  box-shadow:0 6px 25px rgba(20,25,50,.05);
+}
 
-      .logo {
-        font-size: 20px;
-      }
-    }
-  </style>
+.ai-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
+
+.ai-icon{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#eeedff;
+  border-radius:11px;
+}
+
+.ai-title h2{
+  font-size:18px;
+}
+
+.answer{
+  color:#475467;
+  line-height:1.7;
+  white-space:pre-wrap;
+  font-size:14px;
+}
+
+/* PRODUCTS */
+
+.products{
+  max-width:1100px;
+  margin:45px auto 70px;
+  padding:0 20px;
+}
+
+.section-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.section-head h2{
+  font-size:24px;
+}
+
+.section-head p{
+  color:#98a2b3;
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(210px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e7e9ef;
+  border-radius:15px;
+  padding:18px;
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(30,35,60,.09);
+}
+
+.product-icon{
+  width:54px;
+  height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f4f5f9;
+  border-radius:13px;
+  font-size:29px;
+  margin-bottom:14px;
+}
+
+.card h3{
+  font-size:15px;
+  line-height:1.4;
+  margin-bottom:8px;
+}
+
+.card p{
+  color:#667085;
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:15px;
+}
+
+.amazon-btn{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#111827;
+  color:#fff;
+  padding:10px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.amazon-btn:hover{
+  background:#635bff;
+}
+
+/* FEATURES */
+
+.features{
+  max-width:1000px;
+  margin:0 auto 70px;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.feature{
+  background:#fff;
+  border:1px solid #e7e9ef;
+  border-radius:15px;
+  padding:22px;
+}
+
+.feature-icon{
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+.feature h3{
+  font-size:15px;
+  margin-bottom:7px;
+}
+
+.feature p{
+  color:#667085;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* FOOTER */
+
+footer{
+  background:#111827;
+  color:#fff;
+  text-align:center;
+  padding:30px 20px;
+}
+
+.footer-logo{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.footer-logo span{
+  color:#8b85ff;
+}
+
+.footer-small{
+  color:#98a2b3;
+  font-size:11px;
+  margin-top:10px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .navbar{
+    padding:0 18px;
+  }
+
+  .nav-badge{
+    display:none;
+  }
+
+  .hero{
+    padding:55px 15px 35px;
+  }
+
+  .hero h1{
+    font-size:38px;
+    letter-spacing:-1px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .search-box{
+    margin-top:25px;
+  }
+
+  .trust{
+    gap:15px;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .card{
+    padding:13px;
+  }
+
+  .section-head{
+    display:block;
+  }
+
+  .section-head p{
+    margin-top:5px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">
-      Shop<span>Sathi</span> AI 🛍️
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+  <div class="logo">
+    Shop<span>Sathi</span> AI
+  </div>
+
+  <div class="nav-right">
+    <div class="nav-badge">
+      ✨ AI Powered
     </div>
+  </div>
 
-    <div>
-      Smart Shopping
-    </div>
-  </header>
+</nav>
 
 
-  <section class="hero">
+<!-- HERO -->
 
-    <h1>
-      Find the <span>Best Product</span>
-    </h1>
+<section class="hero">
 
-    <p>
-      Search by typing or speaking. Ask ShopSathi AI for help.
-    </p>
+  <div class="ai-badge">
+    ✨ SMART SHOPPING ASSISTANT
+  </div>
 
-    <div class="search-box">
+  <h1>
+    Shop smarter with
+    <span>AI.</span>
+  </h1>
 
-      <input
-        id="searchInput"
-        type="text"
-        placeholder="Example: best shoes under ₹2000"
-        onkeydown="handleEnter(event)"
-      >
+  <p>
+    Tell ShopSathi what you need, your budget and your preferences.
+    AI helps you find the right products faster.
+  </p>
+
+
+  <!-- SEARCH -->
+
+  <div class="search-box">
+
+    <div class="input-area">
+
+      <textarea
+        id="input"
+        placeholder="Try: ₹2000 ke andar running shoes chahiye..."
+      ></textarea>
 
       <button
-        id="micButton"
-        class="mic-btn"
-        onclick="startVoiceSearch()"
+        class="voice-btn"
+        id="voiceBtn"
+        onclick="startVoice()"
         title="Voice Search"
       >
-        🎤
+        🎙️
       </button>
+
+    </div>
+
+    <div class="bottom-search">
+
+      <div class="ai-status">
+        🤖 AI Shopping Assistant
+      </div>
 
       <button
-        class="search-btn"
-        onclick="searchEverything()"
+        id="ask"
+        class="ask-btn"
+        onclick="searchProducts()"
       >
-        ✨ Search
+        Ask AI →
       </button>
 
     </div>
 
-    <p id="voiceStatus" style="margin-top:12px;font-size:14px;"></p>
-
-  </section>
+  </div>
 
 
-  <section class="features">
+  <!-- EXAMPLES -->
 
-    <div class="feature">
-      <div class="feature-icon">🎤</div>
-      <h3>Voice Search</h3>
+  <div class="examples">
+
+    <button
+      class="example"
+      onclick="example('₹2000 ke andar running shoes')"
+    >
+      👟 Running Shoes
+    </button>
+
+    <button
+      class="example"
+      onclick="example('₹1500 ke andar headphones')"
+    >
+      🎧 Headphones
+    </button>
+
+    <button
+      class="example"
+      onclick="example('₹1000 ke andar school bag')"
+    >
+      🎒 School Bag
+    </button>
+
+    <button
+      class="example"
+      onclick="example('₹30000 ke andar smartphone')"
+    >
+      📱 Smartphone
+    </button>
+
+  </div>
+
+
+  <div class="trust">
+
+    <span>✓ AI recommendations</span>
+    <span>✓ Budget focused</span>
+    <span>✓ Amazon shopping</span>
+
+  </div>
+
+</section>
+
+
+<!-- LOADING -->
+
+<div
+  id="loading"
+  class="loading hidden"
+>
+  🤖 ShopSathi AI is finding the best options...
+</div>
+
+
+<!-- AI RESULT -->
+
+<section
+  id="ai"
+  class="ai-result hidden"
+>
+
+  <div class="ai-title">
+
+    <div class="ai-icon">
+      🤖
+    </div>
+
+    <h2>
+      ShopSathi Recommendation
+    </h2>
+
+  </div>
+
+  <div
+    id="answer"
+    class="answer"
+  ></div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section
+  id="products"
+  class="products hidden"
+>
+
+  <div class="section-head">
+
+    <div>
+      <h2>
+        Recommended Searches
+      </h2>
+
       <p>
-        Speak your product request using your microphone.
+        Continue your shopping on Amazon
       </p>
     </div>
 
-    <div class="feature">
-      <div class="feature-icon">🤖</div>
-      <h3>AI Assistant</h3>
-      <p>
-        Ask ShopSathi AI for shopping suggestions and advice.
-      </p>
+  </div>
+
+
+  <div
+    id="grid"
+    class="grid"
+  ></div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features">
+
+  <div class="feature">
+
+    <div class="feature-icon">
+      🤖
     </div>
 
-    <div class="feature">
-      <div class="feature-icon">🛒</div>
-      <h3>Amazon Search</h3>
-      <p>
-        Open real Amazon search results for your product.
-      </p>
+    <h3>
+      AI Shopping Advice
+    </h3>
+
+    <p>
+      Explain what you need and let AI understand your requirement.
+    </p>
+
+  </div>
+
+
+  <div class="feature">
+
+    <div class="feature-icon">
+      💰
     </div>
 
-  </section>
+    <h3>
+      Budget Friendly
+    </h3>
+
+    <p>
+      Add your budget and find products that match your needs.
+    </p>
+
+  </div>
 
 
-  <section id="results"></section>
+  <div class="feature">
+
+    <div class="feature-icon">
+      🎙️
+    </div>
+
+    <h3>
+      Voice Search
+    </h3>
+
+    <p>
+      Search naturally using your voice on supported browsers.
+    </p>
+
+  </div>
+
+</section>
 
 
-  <footer>
-    © 2026 ShopSathi AI — Created by Naitik Wankhade
-  </footer>
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="footer-logo">
+    Shop<span>Sathi</span> AI
+  </div>
+
+  <div>
+    © 2026 ShopSathi AI
+  </div>
+
+  <div>
+    Created by <strong>Naitik Wankhade</strong>
+  </div>
+
+  <div class="footer-small">
+    As an Amazon Associate I earn from qualifying purchases.
+  </div>
+
+</footer>
 
 
-  <script>
+<script>
 
-    /*
-      Amazon Associates tracking ID
-    */
+/* AMAZON */
 
-    const AMAZON_TAG = "shopsathi01-21";
+const AMAZON_TAG = "shopsathi01-21";
 
 
-    /*
-      Escape text before putting it into HTML.
-    */
+/* EXAMPLE */
 
-    function escapeHtml(text) {
+function example(text){
 
-      const div = document.createElement("div");
+  document.getElementById("input").value = text;
 
-      div.textContent = text;
+  document.getElementById("input").focus();
 
-      return div.innerHTML;
+}
+
+
+/* AMAZON SEARCH */
+
+function amazonSearch(query){
+
+  return (
+    "https://www.amazon.in/s?k=" +
+    encodeURIComponent(query) +
+    "&tag=" +
+    encodeURIComponent(AMAZON_TAG)
+  );
+
+}
+
+
+/* VOICE SEARCH */
+
+function startVoice(){
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+
+    alert(
+      "Voice search is not supported in this browser. Please use Chrome."
+    );
+
+    return;
+
+  }
+
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-IN";
+
+  recognition.interimResults = false;
+
+  recognition.continuous = false;
+
+
+  const voiceBtn =
+    document.getElementById("voiceBtn");
+
+  voiceBtn.textContent = "🔴";
+
+
+  recognition.start();
+
+
+  recognition.onresult = function(event){
+
+    const text =
+      event.results[0][0].transcript;
+
+    document.getElementById("input").value =
+      text;
+
+  };
+
+
+  recognition.onerror = function(){
+
+    alert("Voice search start nahi ho paya.");
+
+  };
+
+
+  recognition.onend = function(){
+
+    voiceBtn.textContent = "🎙️";
+
+  };
+
+}
+
+
+/* MAIN SEARCH */
+
+async function searchProducts(){
+
+  const input =
+    document.getElementById("input")
+    .value
+    .trim();
+
+
+  if(!input){
+
+    alert(
+      "Pehle apni shopping requirement likho."
+    );
+
+    return;
+
+  }
+
+
+  const ask =
+    document.getElementById("ask");
+
+  const loading =
+    document.getElementById("loading");
+
+  const ai =
+    document.getElementById("ai");
+
+  const answer =
+    document.getElementById("answer");
+
+  const products =
+    document.getElementById("products");
+
+  const grid =
+    document.getElementById("grid");
+
+
+  ask.disabled = true;
+
+  ask.textContent =
+    "Searching...";
+
+  loading.classList.remove("hidden");
+
+  ai.classList.add("hidden");
+
+  products.classList.add("hidden");
+
+  grid.innerHTML = "";
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+            message:input
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "AI request failed"
+      );
+
     }
 
 
-    /*
-      Main search:
-      1. Show Amazon search button
-      2. Ask ShopSathi AI
-    */
-
-    async function searchEverything() {
-
-      const input =
-        document.getElementById("searchInput")
-          .value
-          .trim();
-
-      const results =
-        document.getElementById("results");
-
-      if (!input) {
-
-        alert("Please enter a product or question.");
-
-        return;
-      }
+    answer.textContent =
+      data.reply ||
+      "Here are some shopping options for you.";
 
 
-      const amazonUrl =
-        "https://www.amazon.in/s?k=" +
-        encodeURIComponent(input) +
-        "&tag=" +
-        encodeURIComponent(AMAZON_TAG);
+    ai.classList.remove("hidden");
 
 
-      results.innerHTML = `
+    const searches =
+      data.searches || [input];
 
-        <div class="card">
 
-          <h2>🛒 Amazon Product Search</h2>
+    searches.forEach(
+      function(search){
+
+        const card =
+          document.createElement("div");
+
+        card.className =
+          "card";
+
+
+        card.innerHTML = `
+
+          <div class="product-icon">
+            ${getIcon(search)}
+          </div>
+
+          <h3>
+            ${escapeHtml(search)}
+          </h3>
 
           <p>
-            Searching Amazon for:
-            <strong>${escapeHtml(input)}</strong>
+            Explore matching products and
+            offers on Amazon.
           </p>
 
           <a
-            href="${amazonUrl}"
+            class="amazon-btn"
+            href="${amazonSearch(search)}"
             target="_blank"
             rel="noopener noreferrer"
-            class="amazon-btn"
           >
-            🛒 View Amazon Products
+            View on Amazon →
           </a>
 
-        </div>
-
-        <div class="card ai-card">
-
-          <h2>🤖 ShopSathi AI</h2>
-
-          <div class="loading">
-            AI is thinking...
-          </div>
-
-        </div>
-
-      `;
-
-
-      results.scrollIntoView({
-        behavior: "smooth"
-      });
-
-
-      await askAI(input);
-    }
-
-
-    /*
-      Send user's question to Vercel API.
-    */
-
-    async function askAI(message) {
-
-      const aiCard =
-        document.querySelector(".ai-card");
-
-      try {
-
-        const response =
-          await fetch("/api/chat", {
-
-            method: "POST",
-
-            headers: {
-              "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-              message: message
-            })
-
-          });
-
-
-        const data =
-          await response.json();
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.error || "AI request failed."
-          );
-
-        }
-
-
-        aiCard.innerHTML = `
-
-          <h2>🤖 ShopSathi AI</h2>
-
-          <div class="ai-answer">
-            ${escapeHtml(data.answer || "No answer received.")}
-          </div>
-
         `;
 
-      } catch (error) {
 
-        console.error(error);
-
-        aiCard.innerHTML = `
-
-          <h2>🤖 ShopSathi AI</h2>
-
-          <div class="error">
-            AI is currently unavailable.
-            Please check your Vercel API configuration.
-          </div>
-
-        `;
+        grid.appendChild(card);
 
       }
-
-    }
-
-
-    /*
-      Enter key support.
-    */
-
-    function handleEnter(event) {
-
-      if (event.key === "Enter") {
-
-        searchEverything();
-
-      }
-
-    }
+    );
 
 
-    /*
-      Microphone / Speech Recognition
-    */
-
-    function startVoiceSearch() {
-
-      const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
+    products.classList.remove(
+      "hidden"
+    );
 
 
-      if (!SpeechRecognition) {
+  }catch(error){
 
-        alert(
-          "Voice search is not supported in this browser. Try Chrome."
-        );
-
-        return;
-      }
+    console.error(error);
 
 
-      const recognition =
-        new SpeechRecognition();
+    answer.textContent =
+      "AI temporarily unavailable. You can still continue your search on Amazon.";
 
 
-      recognition.lang = "en-IN";
-
-      recognition.interimResults = false;
-
-      recognition.maxAlternatives = 1;
+    ai.classList.remove("hidden");
 
 
-      const micButton =
-        document.getElementById("micButton");
+    grid.innerHTML = `
 
-      const voiceStatus =
-        document.getElementById("voiceStatus");
+      <div class="card">
 
+        <div class="product-icon">
+          🛍️
+        </div>
 
-      recognition.onstart = function() {
+        <h3>
+          ${escapeHtml(input)}
+        </h3>
 
-        micButton.classList.add("listening");
+        <p>
+          Search this requirement directly
+          on Amazon.
+        </p>
 
-        micButton.textContent = "🔴";
+        <a
+          class="amazon-btn"
+          href="${amazonSearch(input)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on Amazon →
+        </a>
 
-        voiceStatus.textContent =
-          "Listening... Speak now.";
+      </div>
 
-      };
-
-
-      recognition.onresult = function(event) {
-
-        const transcript =
-          event.results[0][0].transcript;
-
-
-        document.getElementById("searchInput")
-          .value = transcript;
-
-
-        voiceStatus.textContent =
-          "Voice received: " + transcript;
-
-      };
+    `;
 
 
-      recognition.onerror = function(event) {
+    products.classList.remove(
+      "hidden"
+    );
 
-        console.error(
-          "Speech recognition error:",
-          event.error
-        );
-
-        voiceStatus.textContent =
-          "Microphone error. Please try again.";
-
-      };
+  }
 
 
-      recognition.onend = function() {
+  loading.classList.add("hidden");
 
-        micButton.classList.remove("listening");
+  ask.disabled = false;
 
-        micButton.textContent = "🎤";
+  ask.textContent =
+    "Ask AI →";
 
-      };
+
+  products.scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
 
 
-      recognition.start();
+/* ICONS */
 
-    }
+function getIcon(text){
 
-  </script>
+  const value =
+    text.toLowerCase();
+
+
+  if(
+    value.includes("shoe") ||
+    value.includes("shoes") ||
+    value.includes("joota")
+  )
+    return "👟";
+
+
+  if(
+    value.includes("headphone") ||
+    value.includes("earphone")
+  )
+    return "🎧";
+
+
+  if(value.includes("bag"))
+    return "🎒";
+
+
+  if(
+    value.includes("phone") ||
+    value.includes("mobile")
+  )
+    return "📱";
+
+
+  if(value.includes("laptop"))
+    return "💻";
+
+
+  if(value.includes("watch"))
+    return "⌚";
+
+
+  if(value.includes("camera"))
+    return "📷";
+
+
+  return "🛍️";
+
+}
+
+
+/* SECURITY */
+
+function escapeHtml(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+</script>
 
 </body>
 </html>
