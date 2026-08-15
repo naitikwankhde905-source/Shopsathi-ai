@@ -1,216 +1,611 @@
-async function searchProducts() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  const message =
-    document.getElementById("input").value.trim();
+  <title>ShopSathi AI</title>
 
-  if (!message) {
-    alert("Apni shopping requirement likho.");
-    return;
-  }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-  const ask = document.getElementById("ask");
-  const loading = document.getElementById("loading");
-  const ai = document.getElementById("ai");
-  const answer = document.getElementById("answer");
-  const products = document.getElementById("products");
-  const grid = document.getElementById("grid");
+    body {
+      background: #f5f7fb;
+      color: #172033;
+    }
 
-  ask.disabled = true;
-  ask.textContent = "🤖 Searching...";
-  loading.classList.remove("hidden");
-  ai.classList.add("hidden");
-  products.classList.add("hidden");
-  grid.innerHTML = "";
+    header {
+      background: white;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
 
-  let searchQuery = message;
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-  // AI SEARCH
-  try {
+    .logo span {
+      color: #5b5bf7;
+    }
 
-    const aiResponse = await fetch("/api/chat", {
-      method: "POST",
+    .hero {
+      text-align: center;
+      padding: 55px 20px 30px;
+    }
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
 
-      body: JSON.stringify({
-        message: message
-      })
-    });
+    .hero h1 span {
+      color: #5b5bf7;
+    }
 
-    const aiData = await aiResponse.json();
+    .hero p {
+      color: #667085;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
 
-    searchQuery =
-      aiData.searchQuery ||
-      message;
+    .search-box {
+      max-width: 750px;
+      margin: auto;
+      background: white;
+      padding: 10px;
+      border-radius: 16px;
+      display: flex;
+      gap: 8px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    }
 
-    answer.textContent =
-      aiData.reply ||
-      "Aapki shopping requirement samajh li.";
+    .search-box input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
 
-    ai.classList.remove("hidden");
+    .mic-btn,
+    .search-btn {
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0 18px;
+    }
 
-  } catch (error) {
+    .mic-btn {
+      background: #eef0ff;
+      color: #5b5bf7;
+      font-size: 21px;
+    }
 
-    console.error(error);
+    .mic-btn.listening {
+      background: #ffe4e4;
+      color: #d11a2a;
+    }
 
-    answer.textContent =
-      "AI abhi available nahi hai. Amazon search ready hai.";
+    .search-btn {
+      background: #5b5bf7;
+      color: white;
+      font-size: 15px;
+    }
 
-    ai.classList.remove("hidden");
-  }
+    .search-btn:hover {
+      background: #4545d8;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 25px 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+    }
+
+    .feature h3 {
+      margin: 10px 0;
+    }
+
+    .feature p {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #results {
+      max-width: 900px;
+      margin: 20px auto 50px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 12px;
+    }
+
+    .ai-card {
+      border-left: 5px solid #5b5bf7;
+    }
+
+    .ai-answer {
+      color: #4b5563;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .amazon-btn {
+      display: inline-block;
+      background: #172033;
+      color: white;
+      padding: 13px 20px;
+      border-radius: 9px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .amazon-btn:hover {
+      background: #5b5bf7;
+    }
+
+    .loading {
+      color: #667085;
+      padding: 10px 0;
+    }
+
+    .error {
+      color: #c62828;
+      background: #fff1f1;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #172033;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .search-box {
+        flex-wrap: wrap;
+      }
+
+      .search-box input {
+        width: 100%;
+        flex-basis: 100%;
+      }
+
+      .mic-btn,
+      .search-btn {
+        height: 48px;
+      }
+
+      .search-btn {
+        flex: 1;
+      }
+
+      header {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      Shop<span>Sathi</span> AI 🛍️
+    </div>
+
+    <div>
+      Smart Shopping
+    </div>
+  </header>
 
 
-  // AMAZON SEARCH
-  try {
+  <section class="hero">
 
-    const response = await fetch(
-      "/api/products?q=" +
-      encodeURIComponent(searchQuery)
-    );
+    <h1>
+      Find the <span>Best Product</span>
+    </h1>
 
-    const data = await response.json();
+    <p>
+      Search by typing or speaking. Ask ShopSathi AI for help.
+    </p>
 
-    if (
-      data.products &&
-      data.products.length > 0
-    ) {
+    <div class="search-box">
 
-      data.products.forEach(product => {
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Example: best shoes under ₹2000"
+        onkeydown="handleEnter(event)"
+      >
 
-        const card =
-          document.createElement("div");
+      <button
+        id="micButton"
+        class="mic-btn"
+        onclick="startVoiceSearch()"
+        title="Voice Search"
+      >
+        🎤
+      </button>
 
-        card.className = "card";
+      <button
+        class="search-btn"
+        onclick="searchEverything()"
+      >
+        ✨ Search
+      </button>
 
-        card.innerHTML = `
-          <div class="icon">🛍️</div>
+    </div>
 
-          <h3>
-            ${escapeHtml(product.title)}
-          </h3>
+    <p id="voiceStatus" style="margin-top:12px;font-size:14px;"></p>
 
-          ${
-            product.displayPrice
-              ? `<p><strong>${escapeHtml(
-                  product.displayPrice
-                )}</strong></p>`
-              : ""
-          }
+  </section>
 
-          <a
-            class="amazon"
-            href="${product.url}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            🛒 View on Amazon
-          </a>
-        `;
 
-        grid.appendChild(card);
+  <section class="features">
 
-      });
+    <div class="feature">
+      <div class="feature-icon">🎤</div>
+      <h3>Voice Search</h3>
+      <p>
+        Speak your product request using your microphone.
+      </p>
+    </div>
 
-    } else {
+    <div class="feature">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Assistant</h3>
+      <p>
+        Ask ShopSathi AI for shopping suggestions and advice.
+      </p>
+    </div>
 
-      const url =
-        data.fallbackUrl ||
-        (
-          "https://www.amazon.in/s?k=" +
-          encodeURIComponent(searchQuery) +
-          "&tag=shopsathi01-21"
-        );
+    <div class="feature">
+      <div class="feature-icon">🛒</div>
+      <h3>Amazon Search</h3>
+      <p>
+        Open real Amazon search results for your product.
+      </p>
+    </div>
 
-      grid.innerHTML = `
+  </section>
 
-        <div
-          class="card"
-          style="grid-column:1/-1"
-        >
 
-          <div class="icon">
-            🛒
-          </div>
+  <section id="results"></section>
 
-          <h3>
-            Amazon Products
-          </h3>
+
+  <footer>
+    © 2026 ShopSathi AI — Created by Naitik Wankhade
+  </footer>
+
+
+  <script>
+
+    /*
+      Amazon Associates tracking ID
+    */
+
+    const AMAZON_TAG = "shopsathi01-21";
+
+
+    /*
+      Escape text before putting it into HTML.
+    */
+
+    function escapeHtml(text) {
+
+      const div = document.createElement("div");
+
+      div.textContent = text;
+
+      return div.innerHTML;
+    }
+
+
+    /*
+      Main search:
+      1. Show Amazon search button
+      2. Ask ShopSathi AI
+    */
+
+    async function searchEverything() {
+
+      const input =
+        document.getElementById("searchInput")
+          .value
+          .trim();
+
+      const results =
+        document.getElementById("results");
+
+      if (!input) {
+
+        alert("Please enter a product or question.");
+
+        return;
+      }
+
+
+      const amazonUrl =
+        "https://www.amazon.in/s?k=" +
+        encodeURIComponent(input) +
+        "&tag=" +
+        encodeURIComponent(AMAZON_TAG);
+
+
+      results.innerHTML = `
+
+        <div class="card">
+
+          <h2>🛒 Amazon Product Search</h2>
 
           <p>
-            Matching products Amazon par
-            dekhein.
+            Searching Amazon for:
+            <strong>${escapeHtml(input)}</strong>
           </p>
 
           <a
-            class="amazon"
-            href="${url}"
+            href="${amazonUrl}"
             target="_blank"
             rel="noopener noreferrer"
+            class="amazon-btn"
           >
-            🛒 Search on Amazon
+            🛒 View Amazon Products
           </a>
+
+        </div>
+
+        <div class="card ai-card">
+
+          <h2>🤖 ShopSathi AI</h2>
+
+          <div class="loading">
+            AI is thinking...
+          </div>
 
         </div>
 
       `;
+
+
+      results.scrollIntoView({
+        behavior: "smooth"
+      });
+
+
+      await askAI(input);
     }
 
-    products.classList.remove("hidden");
 
-  } catch (error) {
+    /*
+      Send user's question to Vercel API.
+    */
 
-    console.error(error);
+    async function askAI(message) {
 
-    grid.innerHTML = `
+      const aiCard =
+        document.querySelector(".ai-card");
 
-      <div
-        class="card"
-        style="grid-column:1/-1"
-      >
+      try {
 
-        <div class="icon">
-          🛒
-        </div>
+        const response =
+          await fetch("/api/chat", {
 
-        <h3>
-          Amazon Search
-        </h3>
+            method: "POST",
 
-        <p>
-          Amazon par products search karein.
-        </p>
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-        <a
-          class="amazon"
-          href="https://www.amazon.in/s?k=${encodeURIComponent(
-            searchQuery
-          )}&tag=shopsathi01-21"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          🛒 Search on Amazon
-        </a>
+            body: JSON.stringify({
+              message: message
+            })
 
-      </div>
-
-    `;
-
-    products.classList.remove("hidden");
-  }
+          });
 
 
-  loading.classList.add("hidden");
+        const data =
+          await response.json();
 
-  ask.disabled = false;
 
-  ask.textContent =
-    "✨ Ask ShopSathi AI";
+        if (!response.ok) {
 
-  products.scrollIntoView({
-    behavior: "smooth"
-  });
-}
+          throw new Error(
+            data.error || "AI request failed."
+          );
+
+        }
+
+
+        aiCard.innerHTML = `
+
+          <h2>🤖 ShopSathi AI</h2>
+
+          <div class="ai-answer">
+            ${escapeHtml(data.answer || "No answer received.")}
+          </div>
+
+        `;
+
+      } catch (error) {
+
+        console.error(error);
+
+        aiCard.innerHTML = `
+
+          <h2>🤖 ShopSathi AI</h2>
+
+          <div class="error">
+            AI is currently unavailable.
+            Please check your Vercel API configuration.
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    /*
+      Enter key support.
+    */
+
+    function handleEnter(event) {
+
+      if (event.key === "Enter") {
+
+        searchEverything();
+
+      }
+
+    }
+
+
+    /*
+      Microphone / Speech Recognition
+    */
+
+    function startVoiceSearch() {
+
+      const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+      if (!SpeechRecognition) {
+
+        alert(
+          "Voice search is not supported in this browser. Try Chrome."
+        );
+
+        return;
+      }
+
+
+      const recognition =
+        new SpeechRecognition();
+
+
+      recognition.lang = "en-IN";
+
+      recognition.interimResults = false;
+
+      recognition.maxAlternatives = 1;
+
+
+      const micButton =
+        document.getElementById("micButton");
+
+      const voiceStatus =
+        document.getElementById("voiceStatus");
+
+
+      recognition.onstart = function() {
+
+        micButton.classList.add("listening");
+
+        micButton.textContent = "🔴";
+
+        voiceStatus.textContent =
+          "Listening... Speak now.";
+
+      };
+
+
+      recognition.onresult = function(event) {
+
+        const transcript =
+          event.results[0][0].transcript;
+
+
+        document.getElementById("searchInput")
+          .value = transcript;
+
+
+        voiceStatus.textContent =
+          "Voice received: " + transcript;
+
+      };
+
+
+      recognition.onerror = function(event) {
+
+        console.error(
+          "Speech recognition error:",
+          event.error
+        );
+
+        voiceStatus.textContent =
+          "Microphone error. Please try again.";
+
+      };
+
+
+      recognition.onend = function() {
+
+        micButton.classList.remove("listening");
+
+        micButton.textContent = "🎤";
+
+      };
+
+
+      recognition.start();
+
+    }
+
+  </script>
+
 </body>
-  </html>
+</html>
