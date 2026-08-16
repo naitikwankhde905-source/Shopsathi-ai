@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>ShopSathi AI</title>
-<script>
-  window.va = window.va || function () {
-    (window.vaq = window.vaq || []).push(arguments);
-  };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
+
+  <script>
+    window.va = window.va || function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -20,36 +22,67 @@
     }
 
     body {
-      background: #f5f7fb;
+      background:
+        radial-gradient(circle at top left, #eef0ff 0, transparent 35%),
+        radial-gradient(circle at top right, #e8f7ff 0, transparent 30%),
+        #f6f8fc;
       color: #172033;
     }
 
     header {
-      background: white;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(15px);
       padding: 18px 7%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .logo {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
     .logo span {
       color: #5b5bf7;
     }
 
+    .header-badge {
+      background: #eef0ff;
+      color: #5b5bf7;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     .hero {
       text-align: center;
-      padding: 55px 20px 30px;
+      padding: 65px 20px 35px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: white;
+      padding: 9px 15px;
+      border-radius: 30px;
+      color: #5b5bf7;
+      font-size: 13px;
+      font-weight: bold;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      margin-bottom: 18px;
     }
 
     .hero h1 {
-      font-size: 42px;
+      font-size: 46px;
+      line-height: 1.1;
       margin-bottom: 15px;
+      letter-spacing: -1.5px;
     }
 
     .hero h1 span {
@@ -63,39 +96,51 @@
     }
 
     .search-box {
-      max-width: 750px;
+      max-width: 780px;
       margin: auto;
       background: white;
-      padding: 10px;
-      border-radius: 16px;
+      padding: 9px;
+      border-radius: 18px;
       display: flex;
       gap: 8px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 35px rgba(48,55,120,0.12);
+      border: 1px solid #edf0f7;
     }
 
     .search-box input {
       flex: 1;
       min-width: 0;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid #e4e7ec;
+      border-radius: 12px;
       font-size: 16px;
       outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #5b5bf7;
+      box-shadow: 0 0 0 3px rgba(91,91,247,0.1);
     }
 
     .mic-btn,
     .search-btn {
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       font-weight: bold;
-      padding: 0 18px;
+      padding: 0 19px;
+      transition: 0.2s;
     }
 
     .mic-btn {
       background: #eef0ff;
       color: #5b5bf7;
       font-size: 21px;
+    }
+
+    .mic-btn:hover {
+      transform: translateY(-2px);
+      background: #e2e5ff;
     }
 
     .mic-btn.listening {
@@ -111,27 +156,127 @@
 
     .search-btn:hover {
       background: #4545d8;
+      transform: translateY(-2px);
+    }
+
+    /* AI MODELS */
+
+    .models-section {
+      max-width: 1050px;
+      margin: 30px auto 10px;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .section-title p {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .model-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #e8eaf2;
+      border-radius: 20px;
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: 0 7px 25px rgba(0,0,0,0.05);
+      transition: 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 35px rgba(48,55,120,0.13);
+    }
+
+    .model-avatar {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 43px;
+      background: linear-gradient(145deg, #eef0ff, #e5e8ff);
+      border: 4px solid white;
+      box-shadow: 0 7px 20px rgba(0,0,0,0.12);
+    }
+
+    .model-name {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .model-role {
+      font-size: 12px;
+      color: #667085;
+      line-height: 1.4;
+      min-height: 34px;
+    }
+
+    .model-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      font-size: 11px;
+      color: #16803c;
+      background: #eaf9ef;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: #20a04b;
+      border-radius: 50%;
     }
 
     .features {
       display: flex;
       justify-content: center;
       gap: 20px;
-      padding: 25px 20px;
+      padding: 35px 20px;
       flex-wrap: wrap;
     }
 
     .feature {
       background: white;
-      padding: 22px;
-      border-radius: 15px;
-      width: 220px;
+      padding: 24px;
+      border-radius: 18px;
+      width: 230px;
       text-align: center;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      border: 1px solid #edf0f5;
+      transition: 0.2s;
+    }
+
+    .feature:hover {
+      transform: translateY(-4px);
     }
 
     .feature-icon {
-      font-size: 32px;
+      font-size: 34px;
     }
 
     .feature h3 {
@@ -153,9 +298,10 @@
     .card {
       background: white;
       padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
       margin-bottom: 20px;
+      border: 1px solid #edf0f5;
     }
 
     .card h2 {
@@ -207,10 +353,24 @@
       color: white;
     }
 
+    @media (max-width: 800px) {
+      .models-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 600px) {
 
+      .hero {
+        padding-top: 45px;
+      }
+
       .hero h1 {
-        font-size: 32px;
+        font-size: 34px;
+      }
+
+      .hero p {
+        font-size: 16px;
       }
 
       .search-box {
@@ -238,6 +398,38 @@
       .logo {
         font-size: 20px;
       }
+
+      .header-badge {
+        font-size: 11px;
+        padding: 7px 10px;
+      }
+
+      .models-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .model-card {
+        padding: 16px 8px;
+      }
+
+      .model-avatar {
+        width: 65px;
+        height: 65px;
+        font-size: 34px;
+      }
+
+      .model-name {
+        font-size: 15px;
+      }
+
+      .model-role {
+        font-size: 11px;
+      }
+
+      #results {
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -249,13 +441,17 @@
       Shop<span>Sathi</span> AI 🛍️
     </div>
 
-    <div>
-      Smart Shopping
+    <div class="header-badge">
+      ✨ Smart Shopping
     </div>
   </header>
 
 
   <section class="hero">
+
+    <div class="hero-badge">
+      🤖 AI-Powered Shopping Assistant
+    </div>
 
     <h1>
       Find the <span>Best Product</span>
@@ -293,6 +489,73 @@
     </div>
 
     <p id="voiceStatus" style="margin-top:12px;font-size:14px;"></p>
+
+  </section>
+
+
+  <!-- NEW OUTER AI MODEL SECTION -->
+
+  <section class="models-section">
+
+    <div class="section-title">
+      <h2>Meet Your AI Shopping Team</h2>
+      <p>Different AI personalities to help you shop smarter.</p>
+    </div>
+
+    <div class="models-grid">
+
+      <div class="model-card">
+        <div class="model-avatar">👨🏻‍💼</div>
+        <div class="model-name">ShopSathi</div>
+        <div class="model-role">
+          Your personal shopping assistant
+        </div>
+        <div class="model-status">
+          <span class="status-dot"></span>
+          Online
+        </div>
+      </div>
+
+
+      <div class="model-card">
+        <div class="model-avatar">👩🏻‍💻</div>
+        <div class="model-name">Product Expert</div>
+        <div class="model-role">
+          Helps compare products and features
+        </div>
+        <div class="model-status">
+          <span class="status-dot"></span>
+          Online
+        </div>
+      </div>
+
+
+      <div class="model-card">
+        <div class="model-avatar">👨🏻‍🔬</div>
+        <div class="model-name">Tech Advisor</div>
+        <div class="model-role">
+          Gives technology and gadget advice
+        </div>
+        <div class="model-status">
+          <span class="status-dot"></span>
+          Online
+        </div>
+      </div>
+
+
+      <div class="model-card">
+        <div class="model-avatar">👩🏻‍💼</div>
+        <div class="model-name">Budget Expert</div>
+        <div class="model-role">
+          Finds smart options within your budget
+        </div>
+        <div class="model-status">
+          <span class="status-dot"></span>
+          Online
+        </div>
+      </div>
+
+    </div>
 
   </section>
 
@@ -336,16 +599,8 @@
 
   <script>
 
-    /*
-      Amazon Associates tracking ID
-    */
-
     const AMAZON_TAG = "shopsathi01-21";
 
-
-    /*
-      Escape text before putting it into HTML.
-    */
 
     function escapeHtml(text) {
 
@@ -356,12 +611,6 @@
       return div.innerHTML;
     }
 
-
-    /*
-      Main search:
-      1. Show Amazon search button
-      2. Ask ShopSathi AI
-    */
 
     async function searchEverything() {
 
@@ -432,10 +681,6 @@
     }
 
 
-    /*
-      Send user's question to Vercel API.
-    */
-
     async function askAI(message) {
 
       const aiCard =
@@ -502,10 +747,6 @@
     }
 
 
-    /*
-      Enter key support.
-    */
-
     function handleEnter(event) {
 
       if (event.key === "Enter") {
@@ -516,10 +757,6 @@
 
     }
 
-
-    /*
-      Microphone / Speech Recognition
-    */
 
     function startVoiceSearch() {
 
