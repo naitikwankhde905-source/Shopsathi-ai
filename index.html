@@ -1,1010 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ShopSathi AI</title>
-
-<script>
-window.va = window.va || function () {
-  (window.vaq = window.vaq || []).push(arguments);
-};
-</script>
-
-<script defer src="/_vercel/insights/script.js"></script>
-
-<style>
-
-/* =========================
-   GLOBAL
-========================= */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
-body {
-  background: #f5f7fb;
-  color: #172033;
-}
-
-header {
-  background: rgba(255,255,255,.97);
-  padding: 18px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 12px rgba(0,0,0,.06);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.logo span {
-  color: #5b5bf7;
-}
-
-.smart-shopping {
-  color: #667085;
-  font-size: 14px;
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-.hero {
-  text-align: center;
-  padding: 50px 20px 25px;
-}
-
-.hero h1 {
-  font-size: 42px;
-  margin-bottom: 14px;
-}
-
-.hero h1 span {
-  color: #5b5bf7;
-}
-
-.hero p {
-  color: #667085;
-  font-size: 18px;
-  margin-bottom: 25px;
-}
-
-.search-box {
-  max-width: 750px;
-  margin: auto;
-  background: white;
-  padding: 10px;
-  border-radius: 16px;
-  display: flex;
-  gap: 8px;
-  box-shadow: 0 5px 25px rgba(0,0,0,.08);
-}
-
-.search-box input {
-  flex: 1;
-  min-width: 0;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-  outline: none;
-}
-
-.search-box input:focus {
-  border-color: #5b5bf7;
-}
-
-.mic-btn,
-.search-btn {
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 0 18px;
-}
-
-.mic-btn {
-  background: #eef0ff;
-  color: #5b5bf7;
-  font-size: 21px;
-}
-
-.mic-btn.listening {
-  background: #ffe4e4;
-  color: #d11a2a;
-}
-
-.search-btn {
-  background: #5b5bf7;
-  color: white;
-}
-
-.search-btn:hover {
-  background: #4545d8;
-}
-
-
-/* =====================================================
-   MAIN AI SHOPPING TEAM
-===================================================== */
-
-.ai-showcase {
-  max-width: 1150px;
-  min-height: 540px;
-  margin: 35px auto 55px;
-  border-radius: 32px;
-  overflow: hidden;
-  position: relative;
-
-  background:
-    radial-gradient(
-      circle at 78% 35%,
-      rgba(52,112,255,.35),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #080b13,
-      #111827 55%,
-      #07162f
-    );
-
-  box-shadow: 0 25px 60px rgba(20,30,70,.20);
-
-  display: flex;
-  align-items: center;
-  padding: 55px;
-}
-
-.ai-blue-shape {
-  position: absolute;
-  width: 560px;
-  height: 560px;
-  right: -70px;
-  bottom: -280px;
-  background: #0866f5;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.ai-showcase-content {
-  width: 53%;
-  position: relative;
-  z-index: 10;
-}
-
-.ai-small-label {
-  display: inline-block;
-  color: #a9c2ff;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.15);
-  padding: 8px 14px;
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 18px;
-}
-
-.ai-showcase h2 {
-  color: white;
-  font-size: 46px;
-  line-height: 1.08;
-  margin-bottom: 17px;
-}
-
-.ai-showcase h2 span {
-  color: #6d94ff;
-}
-
-.ai-showcase-description {
-  color: #b8c1d6;
-  font-size: 16px;
-  line-height: 1.7;
-  max-width: 480px;
-  margin-bottom: 25px;
-}
-
-.model-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-
-.model-button {
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(255,255,255,.08);
-  color: white;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 12px;
-}
-
-
-/* =========================
-   HERO HUMAN MODEL
-========================= */
-
-.human-model-container {
-  position: absolute;
-  right: 10px;
-  bottom: 0;
-  width: 48%;
-  height: 100%;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.human-model {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  filter: drop-shadow(0 25px 35px rgba(0,0,0,.40));
-}
-
-
-/* =========================
-   FLOATING PRODUCT CARDS
-========================= */
-
-.floating-card {
-  position: absolute;
-  background: rgba(255,255,255,.98);
-  border-radius: 16px;
-  padding: 12px;
-  width: 175px;
-  box-shadow: 0 18px 40px rgba(0,0,0,.25);
-  z-index: 15;
-  animation: floatingCard 4s ease-in-out infinite;
-}
-
-.floating-card.one {
-  left: 4%;
-  top: 90px;
-}
-
-.floating-card.two {
-  left: 8%;
-  bottom: 45px;
-  animation-delay: 1.2s;
-}
-
-.floating-image {
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.discount {
-  display: inline-block;
-  background: #32c54a;
-  color: white;
-  padding: 4px 7px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
-  margin-top: 6px;
-}
-
-.floating-card strong {
-  display: block;
-  margin-top: 7px;
-  font-size: 13px;
-}
-
-.floating-card small {
-  display: block;
-  color: #667085;
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-@keyframes floatingCard {
-  0%,100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-
-/* =====================================================
-   AI EXPERTS
-===================================================== */
-
-.ai-team {
-  max-width: 1150px;
-  margin: 0 auto 60px;
-  padding: 0 20px;
-}
-
-.ai-team-title {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.ai-team-title h2 {
-  font-size: 32px;
-}
-
-.ai-team-title p {
-  color: #667085;
-  margin-top: 8px;
-}
-
-
-/* 2 X 2 */
-
-.ai-team-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 22px;
-}
-
-
-/* BIG HUMAN CARD */
-
-.ai-team-card {
-  min-height: 335px;
-  border-radius: 26px;
-  overflow: hidden;
-  position: relative;
-
-  background:
-    radial-gradient(
-      circle at 80% 25%,
-      rgba(71,111,255,.35),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #080c16,
-      #111827 60%,
-      #0b2450
-    );
-
-  box-shadow: 0 15px 40px rgba(20,30,70,.15);
-
-  transition: .3s;
-}
-
-.ai-team-card:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 25px 55px rgba(20,30,70,.22);
-}
-
-
-/* BLUE CIRCLE */
-
-.ai-team-card::before {
-  content: "";
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  right: -100px;
-  bottom: -205px;
-  background: #0866f5;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-
-/* CONTENT */
-
-.ai-person-content {
-  position: relative;
-  width: 55%;
-  padding: 32px 10px 30px 30px;
-  z-index: 5;
-}
-
-.ai-person-badge {
-  display: inline-block;
-  padding: 7px 10px;
-  border-radius: 20px;
-  background: rgba(255,255,255,.10);
-  color: #a9c2ff;
-  border: 1px solid rgba(255,255,255,.12);
-  font-size: 9px;
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-
-.ai-person-content h3 {
-  color: white;
-  font-size: 27px;
-  margin-bottom: 9px;
-}
-
-.ai-person-content p {
-  color: #c0c7d8;
-  font-size: 13px;
-  line-height: 1.6;
-  max-width: 220px;
-}
-
-.ai-person-online {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 20px;
-  padding: 6px 10px;
-  border-radius: 20px;
-  background: rgba(30,190,90,.14);
-  color: #65dc91;
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.ai-person-online-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #35d66d;
-}
-
-
-/* HUMAN */
-
-.ai-person-photo {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 53%;
-  height: 100%;
-  z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.ai-person-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  filter: drop-shadow(-10px 10px 25px rgba(0,0,0,.3));
-}
-
-
-/* LABEL */
-
-.ai-person-tag {
-  position: absolute;
-  left: 28px;
-  bottom: 22px;
-  z-index: 10;
-
-  background: rgba(255,255,255,.96);
-  color: #172033;
-
-  padding: 8px 12px;
-  border-radius: 10px;
-
-  font-size: 10px;
-  font-weight: bold;
-
-  box-shadow: 0 8px 20px rgba(0,0,0,.2);
-}
-
-
-/* =========================
-   FEATURES
-========================= */
-
-.features {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 25px 20px 45px;
-  flex-wrap: wrap;
-}
-
-.feature {
-  background: white;
-  padding: 22px;
-  border-radius: 15px;
-  width: 220px;
-  text-align: center;
-  box-shadow: 0 3px 15px rgba(0,0,0,.05);
-}
-
-.feature h3 {
-  margin-bottom: 10px;
-}
-
-.feature p {
-  color: #667085;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-
-/* =========================
-   RESULTS
-========================= */
-
-#results {
-  max-width: 900px;
-  margin: 20px auto 50px;
-  padding: 20px;
-}
-
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.06);
-  margin-bottom: 20px;
-}
-
-.card h2 {
-  margin-bottom: 12px;
-}
-
-.ai-card {
-  border-left: 5px solid #5b5bf7;
-}
-
-.ai-answer {
-  color: #4b5563;
-  line-height: 1.7;
-  white-space: pre-wrap;
-}
-
-.amazon-btn {
-  display: inline-block;
-  background: #172033;
-  color: white;
-  padding: 13px 20px;
-  border-radius: 9px;
-  text-decoration: none;
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-.amazon-btn:hover {
-  background: #5b5bf7;
-}
-
-.loading {
-  color: #667085;
-  padding: 10px 0;
-}
-
-.error {
-  color: #c62828;
-  background: #fff1f1;
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-  text-align: center;
-  padding: 30px;
-  background: #172033;
-  color: white;
-}
-
-
-/* =========================
-   TABLET
-========================= */
-
-@media (max-width: 900px) {
-
-  .ai-showcase {
-    margin: 25px 15px 45px;
-    min-height: 650px;
-    padding: 35px 25px;
-    align-items: flex-start;
-  }
-
-  .ai-showcase-content {
-    width: 100%;
-  }
-
-  .ai-showcase h2 {
-    font-size: 38px;
-  }
-
-  .human-model-container {
-    width: 60%;
-    height: 58%;
-    right: -20px;
-  }
-
-  .floating-card.one {
-    left: 20px;
-    top: 260px;
-  }
-
-  .floating-card.two {
-    left: 35px;
-    bottom: 25px;
-  }
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 600px) {
-
-  .hero {
-    padding-top: 35px;
-  }
-
-  .hero h1 {
-    font-size: 32px;
-  }
-
-  .hero p {
-    font-size: 15px;
-  }
-
-  .search-box {
-    flex-wrap: wrap;
-  }
-
-  .search-box input {
-    width: 100%;
-    flex-basis: 100%;
-  }
-
-  .mic-btn,
-  .search-btn {
-    height: 48px;
-  }
-
-  .search-btn {
-    flex: 1;
-  }
-
-  header {
-    padding: 15px;
-  }
-
-  .logo {
-    font-size: 20px;
-  }
-
-  .smart-shopping {
-    font-size: 11px;
-  }
-
-
-  /* MAIN SHOWCASE */
-
-  .ai-showcase {
-    min-height: 620px;
-    padding: 28px 18px;
-    border-radius: 24px;
-  }
-
-  .ai-showcase h2 {
-    font-size: 30px;
-  }
-
-  .ai-showcase-description {
-    font-size: 14px;
-  }
-
-  .human-model-container {
-    width: 68%;
-    height: 52%;
-    right: -25px;
-  }
-
-  .floating-card {
-    width: 130px;
-  }
-
-  .floating-image {
-    height: 65px;
-  }
-
-  .floating-card.one {
-    left: 12px;
-    top: 260px;
-  }
-
-  .floating-card.two {
-    left: 20px;
-    bottom: 20px;
-  }
-
-
-  /* AI EXPERTS */
-
-  .ai-team {
-    padding: 0 14px;
-  }
-
-  .ai-team-title h2 {
-    font-size: 27px;
-  }
-
-  .ai-team-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .ai-team-card {
-    min-height: 300px;
-  }
-
-  .ai-person-content {
-    width: 55%;
-    padding: 25px 5px 25px 22px;
-  }
-
-  .ai-person-content h3 {
-    font-size: 22px;
-  }
-
-  .ai-person-content p {
-    font-size: 11px;
-  }
-
-  .ai-person-photo {
-    width: 53%;
-  }
-
-  .ai-person-tag {
-    left: 20px;
-    bottom: 16px;
-  }
-
-
-  #results {
-    padding: 12px;
-  }
-
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ShopSathi AI</title>
+
+  <script>
+    window.va = window.va || function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    /* ================= HEADER ================= */
+
+    header {
+      background: rgba(255,255,255,0.96);
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #5b5bf7;
+    }
+
+    .smart-shopping {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      text-align: center;
+      padding: 55px 20px 30px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+      color: #5b5bf7;
+    }
+
+    .hero p {
+      color: #667085;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-box {
+      max-width: 750px;
+      margin: auto;
+      background: white;
+      padding: 10px;
+      border-radius: 16px;
+      display: flex;
+      gap: 8px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #5b5bf7;
+      box-shadow: 0 0 0 3px rgba(91,91,247,0.10);
+    }
+
+    .mic-btn,
+    .search-btn {
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0 18px;
+      transition: 0.2s;
+    }
+
+    .mic-btn {
+      background: #eef0ff;
+      color: #5b5bf7;
+      font-size: 21px;
+    }
+
+    .mic-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .mic-btn.listening {
+      background: #ffe4e4;
+      color: #d11a2a;
+    }
+
+    .search-btn {
+      background: #5b5bf7;
+      color: white;
+      font-size: 15px;
+    }
+
+    .search-btn:hover {
+      background: #4545d8;
+      transform: translateY(-2px);
+    }
+
+    /* ================= AI SHOWCASE ================= */
+
+    .ai-showcase {
+      max-width: 1150px;
+      min-height: 540px;
+      margin: 35px auto 50px;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+
+      background:
+        radial-gradient(
+          circle at 78% 35%,
+          rgba(61,112,255,0.40),
+          transparent 28%
+        ),
+        linear-gradient(
+          135deg,
+          #080b13,
+          #111827 55%,
+          #071b3c
+        );
+
+      box-shadow:
+        0 25px 60px rgba(20,30,70,0.20);
+
+      display: flex;
+      align-items: center;
+      padding: 55px;
+    }
+
+    .ai-blue-shape {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      right: -90px;
+      bottom: -320px;
+
+      background: #0866f5;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .ai-showcase-content {
+      width: 52%;
+      position: relative;
+      z-index: 20;
+    }
+
+    .ai-small-label {
+      display: inline-block;
+      color: #a9c2ff;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .ai-showcase h2 {
+      color: white;
+      font-size: 46px;
+      line-height: 1.08;
+      margin-bottom: 17px;
+      letter-spacing: -1px;
+    }
+
+    .ai-showcase h2 span {
+      color: #6d94ff;
+    }
+
+    .ai-showcase-description {
+      color: #b8c1d6;
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 25px;
+    }
+
+    .model-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .model-button {
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .model-button:hover {
+      background: #5b5bf7;
+    }
+
+    /* ================= HUMAN MODEL ================= */
+
+    .human-model-container {
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      width: 49%;
+      height: 100%;
+      z-index: 5;
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .human-model {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+
+      filter:
+        drop-shadow(
+          0 25px 35px rgba(0,0,0,0.45)
+        );
+    }
+
+    /* ================= FLOATING PRODUCT CARDS ================= */
+
+    .floating-card {
+      position: absolute;
+      background: rgba(255,255,255,0.98);
+      border-radius: 16px;
+      padding: 12px;
+      width: 175px;
+
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.25);
+
+      z-index: 30;
+
+      animation: floatingCard 4s ease-in-out infinite;
+    }
+
+    .floating-card.one {
+      left: 47%;
+      top: 45px;
+    }
+
+    .floating-card.two {
+      left: 54%;
+      bottom: 40px;
+      animation-delay: 1.2s;
+    }
+
+    .floating-image {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #eef1f7;
+    }
+
+    .discount {
+      display: inline-block;
+      background: #32c54a;
+      color: white;
+      padding: 4px 7px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    .floating-card strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 13px;
+      color: #172033;
+    }
+
+    .floating-card small {
+      display: block;
+      color: #667085;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    @keyframes floatingCard {
+      0%,100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* ================= AI TEAM ================= */
+
+    .ai-team {
+      max-width: 1100px;
+      margin: 0 auto 50px;
+      padding: 0 20px;
+    }
+
+    .ai-team-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .ai-team-title h2 {
+      font-size: 29px;
+    }
+
+    .ai-team-title p {
+      color: #667085;
+      margin-top: 7px;
+      font-size: 14px;
+    }
+
+    .ai-team-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 16px;
+    }
+
+    .ai-team-card {
+      background: white;
+      border: 1px solid #e9ebf2;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+
+      box-shadow:
+        0 7px 25px rgba(0,0,0,0.05);
+
+      transition: 0.25s;
+    }
+
+    .ai-team-card:hover {
+      transform: translateY(-7px);
+
+      box-shadow:
+        0 18px 40px rgba(30,40,100,0.12);
+    }
+
+    .ai-avatar {
+      width: 90px;
+      height: 90px;
+      margin: auto;
+      border-radius: 50%;
+      overflow: hidden;
+
+      background: #eef0ff;
+      border: 4px solid #eef0ff;
+
+      box-shadow:
+        0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .ai-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ai-team-card h3 {
+      margin-top: 12px;
+      font-size: 17px;
+    }
+
+    .ai-team-card p {
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 5px;
+    }
+
+    .online {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      margin-top: 10px;
+
+      background: #eaf9ef;
+      color: #16803c;
+
+      padding: 5px 9px;
+      border-radius: 20px;
+
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .online-dot {
+      width: 6px;
+      height: 6px;
+      background: #20a04b;
+      border-radius: 50%;
+    }
+
+    /* ================= ORIGINAL FEATURES ================= */
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 25px 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      width: 220px;
+      text-align: center;
+
+      box-shadow:
+        0 3px 15px rgba(0,0,0,0.05);
+    }
+
+    .feature h3 {
+      margin: 10px 0;
+    }
+
+    .feature p {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ================= RESULTS ================= */
+
+    #results {
+      max-width: 900px;
+      margin: 20px auto 50px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+
+      box-shadow:
+        0 3px 15px rgba(0,0,0,0.06);
+
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 12px;
+    }
+
+    .ai-card {
+      border-left: 5px solid #5b5bf7;
+    }
+
+    .ai-answer {
+      color: #4b5563;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .amazon-btn {
+      display: inline-block;
+
+      background: #172033;
+      color: white;
+
+      padding: 13px 20px;
+
+      border-radius: 9px;
+
+      text-decoration: none;
+
+      font-weight: bold;
+
+      margin-top: 15px;
+    }
+
+    .amazon-btn:hover {
+      background: #5b5bf7;
+    }
+
+    .loading {
+      color: #667085;
+      padding: 10px 0;
+    }
+
+    .error {
+      color: #c62828;
+      background: #fff1f1;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #172033;
+      color: white;
+    }
+
+    /* ================= TABLET ================= */
+
+    @media (max-width: 900px) {
+
+      .ai-showcase {
+        margin: 25px 15px 40px;
+        min-height: 650px;
+        padding: 35px 25px;
+        align-items: flex-start;
+      }
+
+      .ai-showcase-content {
+        width: 100%;
+      }
+
+      .ai-showcase h2 {
+        font-size: 38px;
+      }
+
+      .human-model-container {
+        width: 62%;
+        height: 58%;
+        right: -20px;
+      }
+
+      .floating-card.one {
+        left: 20px;
+        top: 280px;
+      }
+
+      .floating-card.two {
+        left: 35px;
+        bottom: 25px;
+      }
+
+      .ai-team-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 600px) {
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .search-box {
+        flex-wrap: wrap;
+      }
+
+      .search-box input {
+        width: 100%;
+        flex-basis: 100%;
+      }
+
+      .mic-btn,
+      .search-btn {
+        height: 48px;
+      }
+
+      .search-btn {
+        flex: 1;
+      }
+
+      header {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .smart-shopping {
+        font-size: 11px;
+      }
+
+      .ai-showcase {
+        min-height: 650px;
+        padding: 28px 18px;
+        border-radius: 24px;
+      }
+
+      .ai-showcase h2 {
+        font-size: 30px;
+      }
+
+      .ai-showcase-description {
+        font-size: 14px;
+      }
+
+      .human-model-container {
+        width: 70%;
+        height: 50%;
+        right: -25px;
+      }
+
+      .floating-card {
+        width: 130px;
+      }
+
+      .floating-image {
+        height: 65px;
+      }
+
+      .floating-card.one {
+        left: 12px;
+        top: 285px;
+      }
+
+      .floating-card.two {
+        left: 20px;
+        bottom: 20px;
+      }
+
+      .ai-team-grid {
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+      }
+
+      .ai-team-card {
+        padding: 14px 8px;
+      }
+
+      .ai-avatar {
+        width: 70px;
+        height: 70px;
+      }
+
+      .ai-team-card h3 {
+        font-size: 14px;
+      }
+
+      .ai-team-card p {
+        font-size: 10px;
+      }
+
+      #results {
+        padding: 12px;
+      }
+
+      .feature {
+        width: 100%;
+        max-width: 330px;
+      }
+    }
+
+  </style>
 </head>
-
 
 <body>
 
+  <!-- ================= HEADER ================= -->
 
-<!-- =========================
-     HEADER
-========================= -->
+  <header>
 
-<header>
-
-  <div class="logo">
-    Shop<span>Sathi</span> AI 🛍️
-  </div>
-
-  <div class="smart-shopping">
-    Smart Shopping
-  </div>
-
-</header>
-
-
-<!-- =========================
-     SEARCH
-========================= -->
-
-<section class="hero">
-
-  <h1>
-    Find the <span>Best Product</span>
-  </h1>
-
-  <p>
-    Search by typing or speaking. Ask ShopSathi AI for help.
-  </p>
-
-  <div class="search-box">
-
-    <input
-      id="searchInput"
-      type="text"
-      placeholder="Example: best shoes under ₹2000"
-      onkeydown="handleEnter(event)"
-    >
-
-    <button
-      id="micButton"
-      class="mic-btn"
-      onclick="startVoiceSearch()"
-      title="Voice Search"
-    >
-      🗣️
-    </button>
-
-    <button
-      class="search-btn"
-      onclick="searchEverything()"
-    >
-      ✨ Search
-    </button>
-
-  </div>
-
-  <p
-    id="voiceStatus"
-    style="margin-top:12px;font-size:14px;"
-  ></p>
-
-</section>
-
-
-<!-- =====================================================
-     MAIN AI SHOPPING TEAM
-===================================================== -->
-
-<section class="ai-showcase">
-
-  <div class="ai-blue-shape"></div>
-
-
-  <div class="ai-showcase-content">
-
-    <div class="ai-small-label">
-      ✨ NEXT-GENERATION SHOPPING AI
+    <div class="logo">
+      Shop<span>Sathi</span> AI 🛍️
     </div>
 
-    <h2>
-      Your Personal
-      <span>AI Shopping Team</span>
-    </h2>
-
-    <p class="ai-showcase-description">
-      Meet your intelligent shopping assistants.
-      Compare products, discover better choices and
-      find products that match your budget.
-    </p>
-
-    <div class="model-buttons">
-
-      <div class="model-button">
-        ShopSathi AI
-      </div>
-
-      <div class="model-button">
-        Product Expert
-      </div>
-
-      <div class="model-button">
-        Tech Advisor
-      </div>
-
-      <div class="model-button">
-        Budget Expert
-      </div>
-
+    <div class="smart-shopping">
+      Smart Shopping
     </div>
 
-  </div>
+  </header>
 
 
-  <!-- MAIN HUMAN MODEL -->
+  <!-- ================= ORIGINAL SEARCH ================= -->
 
-  <div class="human-model-container">
+  <section class="hero">
 
-    <img
-      class="human-model"
-      src="https://randomuser.me/api/portraits/women/44.jpg"
-      alt="AI Shopping Assistant"
-    >
-
-  </div>
-
-
-  <!-- PRODUCT CARD -->
-
-  <div class="floating-card one">
-
-    <img
-      class="floating-image"
-      src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
-      alt="Product"
-    >
-
-    <span class="discount">
-      30% OFF
-    </span>
-
-    <strong>
-      AI Product Pick
-    </strong>
-
-    <small>
-      Best value found
-    </small>
-
-  </div>
-
-
-  <!-- PRODUCT CARD -->
-
-  <div class="floating-card two">
-
-    <img
-      class="floating-image"
-      src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80"
-      alt="Product"
-    >
-
-    <span class="discount">
-      BEST DEAL
-    </span>
-
-    <strong>
-      Smart Recommendation
-    </strong>
-
-    <small>
-      Selected by AI
-    </small>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     AI EXPERTS
-===================================================== -->
-
-<section class="ai-team">
-
-  <div class="ai-team-title">
-
-    <h2>
-      Meet Your AI Experts
-    </h2>
+    <h1>
+      Find the <span>Best Product</span>
+    </h1>
 
     <p>
-      Different AI assistants for different shopping needs.
+      Search by typing or speaking. Ask ShopSathi AI for help.
     </p>
 
-  </div>
+    <div class="search-box">
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Example: best shoes under ₹2000"
+        onkeydown="handleEnter(event)"
+      >
+
+      <button
+        id="micButton"
+        class="mic-btn"
+        onclick="startVoiceSearch()"
+        title="Voice Search"
+      >
+        🎤
+      </button>
+
+      <button
+        class="search-btn"
+        onclick="searchEverything()"
+      >
+        ✨ Search
+      </button>
+
+    </div>
+
+    <p
+      id="voiceStatus"
+      style="margin-top:12px;font-size:14px;"
+    ></p>
+
+  </section>
 
 
-  <div class="ai-team-grid">
+  <!-- ================= AI SHOWCASE ================= -->
+
+  <section class="ai-showcase">
+
+    <div class="ai-blue-shape"></div>
+
+    <div class="ai-showcase-content">
+
+      <div class="ai-small-label">
+        ✨ NEXT-GENERATION SHOPPING AI
+      </div>
+
+      <h2>
+        Your Personal
+        <span>AI Shopping Team</span>
+      </h2>
+
+      <p class="ai-showcase-description">
+        Meet your intelligent shopping assistants.
+        Compare products, discover better choices and
+        find products that match your budget.
+      </p>
+
+      <div class="model-buttons">
+
+        <div class="model-button">
+          ShopSathi AI
+        </div>
+
+        <div class="model-button">
+          Product Expert
+        </div>
+
+        <div class="model-button">
+          Tech Advisor
+        </div>
+
+        <div class="model-button">
+          Budget Expert
+        </div>
+
+      </div>
+
+    </div>
 
 
-    <!-- 1 -->
+    <!-- HUMAN-LIKE AI MODEL -->
 
-    <div class="ai-team-card">
+    <div class="human-model-container">
 
-      <div class="ai-person-content">
+      <img
+        class="human-model"
+        src="https://i.pravatar.cc/700?img=47"
+        alt="AI Shopping Assistant"
+      >
 
-        <div class="ai-person-badge">
-          PERSONAL SHOPPING AI
+    </div>
+
+
+    <!-- PRODUCT CARD 1 -->
+
+    <div class="floating-card one">
+
+      <img
+        class="floating-image"
+        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+        alt="Product"
+      >
+
+      <span class="discount">
+        30% OFF
+      </span>
+
+      <strong>
+        AI Product Pick
+      </strong>
+
+      <small>
+        Best value found
+      </small>
+
+    </div>
+
+
+    <!-- PRODUCT CARD 2 -->
+
+    <div class="floating-card two">
+
+      <img
+        class="floating-image"
+        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80"
+        alt="Product"
+      >
+
+      <span class="discount">
+        BEST DEAL
+      </span>
+
+      <strong>
+        Smart Recommendation
+      </strong>
+
+      <small>
+        Selected by AI
+      </small>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= AI TEAM ================= -->
+
+  <section class="ai-team">
+
+    <div class="ai-team-title">
+
+      <h2>
+        Meet Your AI Experts
+      </h2>
+
+      <p>
+        Different AI assistants for different shopping needs.
+      </p>
+
+    </div>
+
+
+    <div class="ai-team-grid">
+
+
+      <div class="ai-team-card">
+
+        <div class="ai-avatar">
+
+          <img
+            src="https://i.pravatar.cc/300?img=47"
+            alt="ShopSathi AI"
+          >
+
         </div>
 
         <h3>
@@ -1013,43 +923,25 @@ footer {
 
         <p>
           Your personal shopping assistant
-          for smarter product decisions.
         </p>
 
-        <div class="ai-person-online">
-
-          <span class="ai-person-online-dot"></span>
-
+        <div class="online">
+          <span class="online-dot"></span>
           Online
-
         </div>
 
       </div>
 
-      <div class="ai-person-photo">
 
-        <img
-          src="https://randomuser.me/api/portraits/women/44.jpg"
-          alt="ShopSathi AI"
-        >
+      <div class="ai-team-card">
 
-      </div>
+        <div class="ai-avatar">
 
-      <div class="ai-person-tag">
-        Smart Shopping
-      </div>
+          <img
+            src="https://i.pravatar.cc/300?img=32"
+            alt="Product Expert"
+          >
 
-    </div>
-
-
-    <!-- 2 -->
-
-    <div class="ai-team-card">
-
-      <div class="ai-person-content">
-
-        <div class="ai-person-badge">
-          PRODUCT ANALYSIS AI
         </div>
 
         <h3>
@@ -1057,44 +949,26 @@ footer {
         </h3>
 
         <p>
-          Compare products, features,
-          ratings and value.
+          Compare products and features
         </p>
 
-        <div class="ai-person-online">
-
-          <span class="ai-person-online-dot"></span>
-
+        <div class="online">
+          <span class="online-dot"></span>
           Online
-
         </div>
 
       </div>
 
-      <div class="ai-person-photo">
 
-        <img
-          src="https://randomuser.me/api/portraits/women/68.jpg"
-          alt="Product Expert"
-        >
+      <div class="ai-team-card">
 
-      </div>
+        <div class="ai-avatar">
 
-      <div class="ai-person-tag">
-        Product Analysis
-      </div>
+          <img
+            src="https://i.pravatar.cc/300?img=12"
+            alt="Tech Advisor"
+          >
 
-    </div>
-
-
-    <!-- 3 -->
-
-    <div class="ai-team-card">
-
-      <div class="ai-person-content">
-
-        <div class="ai-person-badge">
-          TECHNOLOGY AI
         </div>
 
         <h3>
@@ -1102,44 +976,26 @@ footer {
         </h3>
 
         <p>
-          Smart recommendations for
-          phones, laptops and gadgets.
+          Smart technology recommendations
         </p>
 
-        <div class="ai-person-online">
-
-          <span class="ai-person-online-dot"></span>
-
+        <div class="online">
+          <span class="online-dot"></span>
           Online
-
         </div>
 
       </div>
 
-      <div class="ai-person-photo">
 
-        <img
-          src="https://randomuser.me/api/portraits/men/32.jpg"
-          alt="Tech Advisor"
-        >
+      <div class="ai-team-card">
 
-      </div>
+        <div class="ai-avatar">
 
-      <div class="ai-person-tag">
-        Tech Expert
-      </div>
+          <img
+            src="https://i.pravatar.cc/300?img=5"
+            alt="Budget Expert"
+          >
 
-    </div>
-
-
-    <!-- 4 -->
-
-    <div class="ai-team-card">
-
-      <div class="ai-person-content">
-
-        <div class="ai-person-badge">
-          BUDGET AI
         </div>
 
         <h3>
@@ -1147,214 +1003,179 @@ footer {
         </h3>
 
         <p>
-          Find the best products while
-          staying within your budget.
+          Finds products within your budget
         </p>
 
-        <div class="ai-person-online">
-
-          <span class="ai-person-online-dot"></span>
-
+        <div class="online">
+          <span class="online-dot"></span>
           Online
-
         </div>
 
       </div>
 
-      <div class="ai-person-photo">
-
-        <img
-          src="https://randomuser.me/api/portraits/women/65.jpg"
-          alt="Budget Expert"
-        >
-
-      </div>
-
-      <div class="ai-person-tag">
-        Best Value
-      </div>
 
     </div>
 
-  </div>
-
-</section>
+  </section>
 
 
-<!-- =========================
-     FEATURES
-========================= -->
+  <!-- ================= ORIGINAL FEATURES ================= -->
 
-<section class="features">
+  <section class="features">
 
-  <div class="feature">
+    <div class="feature">
 
-    <h3>
-      Voice Search
-    </h3>
-
-    <p>
-      Speak your product request using your microphone.
-    </p>
-
-  </div>
-
-
-  <div class="feature">
-
-    <h3>
-      AI Assistant
-    </h3>
-
-    <p>
-      Ask ShopSathi AI for shopping suggestions and advice.
-    </p>
-
-  </div>
-
-
-  <div class="feature">
-
-    <h3>
-      Amazon Search
-    </h3>
-
-    <p>
-      Open real Amazon search results for your product.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     RESULTS
-========================= -->
-
-<section id="results"></section>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-  © 2026 ShopSathi AI — Created by Naitik Wankhade
-</footer>
-
-
-<script>
-
-/* =========================
-   AMAZON
-========================= */
-
-const AMAZON_TAG = "shopsathi01-21";
-
-
-/* =========================
-   SECURITY
-========================= */
-
-function escapeHtml(text) {
-
-  const div = document.createElement("div");
-
-  div.textContent = text;
-
-  return div.innerHTML;
-}
-
-
-/* =========================
-   MAIN SEARCH
-========================= */
-
-async function searchEverything() {
-
-  const input =
-    document.getElementById("searchInput")
-      .value
-      .trim();
-
-  const results =
-    document.getElementById("results");
-
-  if (!input) {
-
-    alert("Please enter a product or question.");
-
-    return;
-  }
-
-
-  const amazonUrl =
-    "https://www.amazon.in/s?k=" +
-    encodeURIComponent(input) +
-    "&tag=" +
-    encodeURIComponent(AMAZON_TAG);
-
-
-  results.innerHTML = `
-
-    <div class="card">
-
-      <h2>
-        🛒 Amazon Product Search
-      </h2>
+      <h3>
+        Voice Search
+      </h3>
 
       <p>
-        Searching Amazon for:
-        <strong>
-          ${escapeHtml(input)}
-        </strong>
+        Speak your product request using your microphone.
       </p>
 
-      <a
-        href="${amazonUrl}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="amazon-btn"
-      >
-        🛒 View Amazon Products
-      </a>
+    </div>
+
+
+    <div class="feature">
+
+      <h3>
+        AI Assistant
+      </h3>
+
+      <p>
+        Ask ShopSathi AI for shopping suggestions and advice.
+      </p>
 
     </div>
 
 
-    <div class="card ai-card">
+    <div class="feature">
 
-      <h2>
-        🐔 ShopSathi AI
-      </h2>
+      <h3>
+        Amazon Search
+      </h3>
 
-      <div class="loading">
-        AI is thinking...
-      </div>
+      <p>
+        Open real Amazon search results for your product.
+      </p>
 
     </div>
 
-  `;
+  </section>
 
 
-  results.scrollIntoView({
-    behavior: "smooth"
-  });
+  <!-- ================= RESULTS ================= -->
+
+  <section id="results"></section>
 
 
-  await askAI(input);
+  <!-- ================= FOOTER ================= -->
 
-}
+  <footer>
+    © 2026 ShopSathi AI — Created by Naitik Wankhade
+  </footer>
 
 
-/* =========================
-   AI API
-========================= */
+  <!-- =====================================================
+       ORIGINAL JAVASCRIPT
+       DO NOT REMOVE
+  ===================================================== -->
 
-async function askAI(message) {
+  <script>
 
-  const aiCard =
-    document
-    </body>
-    </html>
+    const AMAZON_TAG = "shopsathi01-21";
+
+
+    function escapeHtml(text) {
+
+      const div = document.createElement("div");
+
+      div.textContent = text;
+
+      return div.innerHTML;
+
+    }
+
+
+    async function searchEverything() {
+
+      const input =
+        document.getElementById("searchInput")
+          .value
+          .trim();
+
+      const results =
+        document.getElementById("results");
+
+
+      if (!input) {
+
+        alert("Please enter a product or question.");
+
+        return;
+
+      }
+
+
+      const amazonUrl =
+        "https://www.amazon.in/s?k=" +
+        encodeURIComponent(input) +
+        "&tag=" +
+        encodeURIComponent(AMAZON_TAG);
+
+
+      results.innerHTML = `
+
+        <div class="card">
+
+          <h2>Amazon Product Search</h2>
+
+          <p>
+            Searching Amazon for:
+            <strong>${escapeHtml(input)}</strong>
+          </p>
+
+          <a
+            href="${amazonUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="amazon-btn"
+          >
+            View Amazon Products
+          </a>
+
+        </div>
+
+
+        <div class="card ai-card">
+
+          <h2>ShopSathi AI</h2>
+
+          <div class="loading">
+            AI is thinking...
+          </div>
+
+        </div>
+
+      `;
+
+
+      results.scrollIntoView({
+        behavior: "smooth"
+      });
+
+
+      await askAI(input);
+
+    }
+
+
+    async function askAI(message) {
+
+      const aiCard =
+        document.querySelector(".ai-card");
+
+
+      try {
+
+        const response =
